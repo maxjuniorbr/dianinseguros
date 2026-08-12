@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dianin Seguros - Corretor de seguros em Mandaguari, PR | Paulo César Dianin</title>
+<meta name="description" content="Corretora independente em Mandaguari, PR. Seguro auto, residencial, empresarial, vida, Carta Verde e viagem - cotação comparada em várias seguradoras e atendimento pessoal do orçamento ao sinistro.">
+<link rel="canonical" href="https://dseg.com.br/">
+<meta name="theme-color" content="#101010">
+<meta name="author" content="Paulo César Dianin">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Dianin Seguros">
+<meta property="og:url" content="https://dseg.com.br/">
+<meta property="og:title" content="Dianin Seguros - Corretor de seguros em Mandaguari, PR">
+<meta property="og:description" content="Cotação comparada em várias seguradoras e um corretor que atende você pessoalmente - do orçamento ao sinistro.">
+<meta property="og:image" content="https://dseg.com.br/assets/img/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Dianin Seguros - Paulo César Dianin, corretor de seguros em Mandaguari, PR">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/img/favicon-512.png" sizes="512x512" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+
+<link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+<style>
+@font-face {
+  font-family: 'Archivo';
+  src: url('assets/fonts/archivo-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-stretch: 100%;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('assets/fonts/space-grotesk-latin.woff2') format('woff2');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  --ink: #101010;
+  --ink-2: #141414;
+  --ink-3: #1C1A17;
+  --slate: #2C2C2C;
+  --line: #262626;
+  --line-2: #3A3A38;
+  --paper: #F2F1EE;
+  --text: #F2F1EE;
+  --mute: #B4B4AE;
+  --dim: #8A8A85;
+  --amber: #F7A44C;
+  --amber-hi: #FFBB74;
+  --amber-deep: #C97B21;
+
+  --display: 'Space Grotesk', 'Archivo', system-ui, sans-serif;
+  --body: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --gut: clamp(18px, 4vw, 32px);
+  --sec-y: clamp(56px, 8vw, 88px);
+  --wrap: 1200px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.55;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -0.03em; margin: 0; text-wrap: balance; }
+p { margin: 0; text-wrap: pretty; }
+
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+.wrap { max-width: var(--wrap); margin: 0 auto; padding-inline: var(--gut); }
+.eyebrow {
+  font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--amber); margin: 0;
+}
+.eyebrow--quiet { color: var(--dim); }
+
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 200;
+  background: var(--amber); color: var(--ink); padding: 12px 20px;
+  font-family: var(--display); font-weight: 600;
+}
+.skip:focus { left: 8px; top: 8px; }
+
+/* ---------- botões ---------- */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--display); font-weight: 600; font-size: 16px;
+  padding: 16px 30px;
+  transition: background .2s ease, transform .2s ease, color .2s ease, border-color .2s ease;
+}
+.btn--amber { background: var(--amber); color: var(--ink); }
+.btn--amber:hover { background: var(--amber-hi); transform: translateY(-2px); }
+.btn--ghost { border: 1px solid var(--line-2); color: var(--text); }
+.btn--ghost:hover { border-color: var(--amber); color: #fff; }
+.btn--ink { background: var(--ink); color: var(--amber); }
+.btn--ink:hover { background: var(--slate); color: var(--amber-hi); transform: translateY(-2px); }
+.btn--sm { padding: 11px 20px; font-size: 14px; }
+
+.link-under {
+  font-family: var(--display); font-weight: 600; font-size: 16px;
+  color: var(--amber); border-bottom: 1px solid #5A4630; padding-bottom: 4px;
+  transition: border-color .2s ease, color .2s ease;
+}
+.link-under:hover { border-color: var(--amber); color: var(--amber-hi); }
+
+/* ---------- cabeçalho ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(16,16,16,.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.site-header .wrap {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; padding-block: 12px;
+}
+.brand { display: flex; align-items: center; flex: none; }
+.brand img { height: 40px; width: auto; }
+@media (max-width: 400px) { .brand img { height: 34px; } }
+.site-nav { display: flex; align-items: center; gap: clamp(16px, 2.4vw, 30px); }
+.site-nav a { font-size: 14px; color: var(--mute); transition: color .2s ease; }
+.site-nav a:hover { color: var(--amber); }
+.site-nav .btn { color: var(--ink); }
+@media (max-width: 860px) { .site-nav .nav-link { display: none; } }
+
+/* ---------- hero ---------- */
+.hero { border-bottom: 1px solid var(--line); }
+.hero .wrap {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: clamp(40px, 6vw, 72px); align-items: center;
+  padding-block: clamp(52px, 9vw, 104px) clamp(52px, 8vw, 92px);
+}
+.hero h1 {
+  font-size: clamp(38px, 6.4vw, 66px); line-height: 1.03;
+  letter-spacing: -0.035em; margin: 22px 0 24px;
+}
+.hero-lead { font-size: clamp(16px, 1.6vw, 19px); color: var(--mute); max-width: 46ch; margin-bottom: 34px; }
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+
+.portrait {
+  margin: 0; position: relative; background: var(--ink-2);
+  border: 1px solid var(--slate); aspect-ratio: 52 / 56; overflow: hidden;
+}
+.portrait img {
+  width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%;
+  filter: grayscale(1) contrast(1.08) brightness(.86);
+  transition: filter .6s ease, transform .8s cubic-bezier(.22,.61,.36,1);
+}
+.portrait:hover img { filter: grayscale(.3) contrast(1.05) brightness(.96); transform: scale(1.03); }
+.portrait::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top, rgba(16,16,16,.93) 0%, rgba(16,16,16,.1) 46%, rgba(16,16,16,.35) 100%);
+}
+.portrait figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 1;
+  padding: clamp(18px, 3vw, 26px) clamp(18px, 3vw, 28px);
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 16px;
+}
+.portrait .name { font-family: var(--display); font-size: 19px; font-weight: 600; letter-spacing: -0.01em; }
+.portrait .role { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mute); margin-top: 6px; }
+.portrait .mark { height: 32px; width: auto; flex: none; }
+
+/* ---------- seções em grade ---------- */
+.band { border-bottom: 1px solid var(--line); }
+.band > .wrap { padding-block: var(--sec-y); }
+.band h2 { font-size: clamp(30px, 4.4vw, 42px); }
+
+.sec-head {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  gap: clamp(20px, 4vw, 48px); flex-wrap: wrap; margin-bottom: clamp(32px, 5vw, 48px);
+}
+.sec-head p { font-size: 15.5px; color: var(--dim); max-width: 36ch; }
+
+.grid-hair { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.grid-hair--3 { grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
+
+.ramo {
+  background: var(--ink-2); display: flex; flex-direction: column; gap: 12px;
+  padding: clamp(28px, 4vw, 38px) clamp(24px, 3.4vw, 34px);
+  min-height: 240px; transition: background .25s ease;
+}
+.ramo:hover { background: var(--ink-3); }
+.ramo .tag {
+  font-family: var(--display); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--amber);
+}
+.ramo h3 { font-size: clamp(21px, 2.6vw, 26px); letter-spacing: -0.02em; }
+.ramo p { font-size: 15.5px; color: var(--mute); flex: 1; }
+.ramo .cotar {
+  font-family: var(--display); font-weight: 600; font-size: 14.5px; color: var(--dim);
+  transition: color .2s ease;
+}
+.ramo:hover .cotar, .ramo .cotar:hover { color: var(--amber); }
+.ramo .cotar::after { content: " →"; }
+
+.ramo--ask { justify-content: center; gap: 18px; }
+.ramo--ask p { font-size: 17px; color: var(--mute); max-width: 26ch; flex: none; }
+
+/* ---------- como funciona ---------- */
+.steps-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: clamp(28px, 4vw, 40px); list-style: none; margin: 0; padding: 0;
+}
+.steps-lead { margin: 14px 0 clamp(34px, 5vw, 52px); font-size: 16px; color: var(--dim); max-width: 52ch; }
+.step { border-top: 1px solid var(--line-2); padding-top: 20px; transition: border-color .25s ease; }
+.step:hover { border-color: var(--amber); }
+.step .n { font-family: var(--display); font-size: 13px; font-weight: 600; letter-spacing: 0.18em; color: var(--amber); }
+.step h3 { font-size: 19px; letter-spacing: -0.01em; margin: 12px 0 10px; }
+.step p { font-size: 15px; color: var(--dim); }
+
+/* ---------- corretor ---------- */
+.broker { background: var(--slate); }
+.broker > .wrap {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: clamp(40px, 6vw, 76px); align-items: start;
+  padding-block: clamp(56px, 8vw, 92px);
+}
+.broker h2 { font-size: clamp(32px, 4.6vw, 44px); line-height: 1.1; margin: 20px 0 24px; }
+.broker .lead { font-size: clamp(16px, 1.7vw, 17.5px); color: #DAD9D5; max-width: 48ch; }
+.broker .lead + .lead { margin-top: 18px; }
+.modes { display: grid; gap: 1px; background: var(--line-2); border: 1px solid var(--line-2); margin-top: 22px; }
+.mode { background: var(--slate); padding: 24px 26px; transition: background .25s ease; }
+.mode:hover { background: #34322F; }
+.mode h3 { font-size: 18px; letter-spacing: -0.01em; margin-bottom: 8px; }
+.mode p { font-size: 15.5px; color: #C7C6C2; }
+.broker .agendar { margin-top: 24px; }
+.broker .agendar .link-under { border-bottom-color: #6E6E69; }
+
+/* ---------- seguradoras ---------- */
+.insurers > .wrap { padding-block: clamp(44px, 6vw, 72px); }
+.insurers .eyebrow { margin-bottom: 24px; }
+.logo-grid {
+  display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line);
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 660px) { .logo-grid { grid-template-columns: repeat(4, 1fr); } }
+.logo-cell {
+  background: var(--ink-2); height: 104px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .25s ease;
+}
+.logo-cell:hover { background: var(--ink-3); }
+/* largura/altura vêm dos atributos de cada <img>, que carregam o ajuste
+   óptico logo a logo; aqui só limitamos para caber em telas estreitas. */
+.logo-cell img {
+  max-width: 82%; height: auto;
+  opacity: .72; transition: opacity .25s ease;
+}
+.logo-cell:hover img { opacity: 1; }
+/* com oito seguradoras a grade fecha certinho em 4x2, então a nota
+   sobre as demais vira uma faixa baixa ocupando a largura toda. */
+.logo-cell--more {
+  grid-column: 1 / -1; height: 60px;
+  font-size: 14.5px; color: var(--dim);
+  text-align: center; padding: 0 20px; line-height: 1.4;
+}
+.logo-cell--more:hover { background: var(--ink-2); }
+
+/* ---------- dúvidas ---------- */
+.faq > .wrap {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(28px, 5vw, 60px); padding-block: var(--sec-y);
+}
+.faq-list { border-top: 1px solid var(--line); min-width: 0; }
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-item summary {
+  list-style: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  padding: 22px 0;
+  font-family: var(--display); font-size: clamp(16px, 1.8vw, 18px); font-weight: 600;
+  letter-spacing: -0.01em; transition: color .2s ease;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary:hover { color: var(--amber); }
+.faq-item .sign {
+  flex: none; width: 26px; height: 26px; border: 1px solid var(--line-2);
+  display: grid; place-items: center; color: var(--amber); font-size: 18px; line-height: 1;
+}
+.faq-item .sign::before { content: "+"; }
+.faq-item[open] .sign::before { content: "-"; }
+.faq-item .answer { font-size: 15.5px; color: var(--dim); max-width: 62ch; padding-bottom: 24px; }
+.faq-item[open] .answer { animation: fade .3s ease both; }
+@keyframes fade { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+/* ---------- contato ---------- */
+.contact { background: var(--paper); color: var(--ink); }
+.contact > .wrap {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(40px, 6vw, 72px); padding-block: clamp(56px, 8vw, 92px);
+}
+.contact h2 { font-size: clamp(32px, 5vw, 46px); line-height: 1.08; letter-spacing: -0.035em; margin-bottom: 20px; }
+.contact .lead { font-size: clamp(16px, 1.7vw, 17.5px); color: #4A4A46; max-width: 42ch; margin-bottom: 32px; }
+.facts { display: grid; gap: 22px; align-content: start; margin: 0; }
+.fact { border-top: 1px solid #D5D3CD; padding-top: 15px; }
+.fact dt { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: #5F5F5A; margin-bottom: 7px; }
+.fact dd { margin: 0; font-size: 16px; }
+.fact a { border-bottom: 1px solid rgba(16,16,16,.25); transition: color .2s ease, border-color .2s ease; }
+.fact a:hover { color: var(--amber-deep); border-color: var(--amber-deep); }
+.fact .sub { color: #4A4A46; }
+
+/* ---------- rodapé ---------- */
+.site-footer { background: var(--ink); color: var(--dim); }
+.site-footer .wrap { padding-block: 30px 26px; font-size: 13px; }
+.site-footer .row {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 18px; flex-wrap: wrap;
+}
+.site-footer .who { display: flex; align-items: center; gap: 13px; }
+.site-footer img { height: 28px; width: auto; }
+.site-footer .meta { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.site-footer a { transition: color .2s ease; }
+.site-footer a:hover { color: var(--amber); }
+.site-footer .legal {
+  margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line);
+  font-size: 12.5px; line-height: 1.6; color: #7E7E79; max-width: 92ch;
+}
+
+/* ---------- botão flutuante ---------- */
+.fab {
+  position: fixed; right: clamp(16px, 3vw, 26px); bottom: clamp(16px, 3vw, 26px); z-index: 60;
+  background: var(--amber); color: var(--ink);
+  font-family: var(--display); font-weight: 600; font-size: 15px;
+  padding: 14px 22px; display: flex; align-items: center; gap: 10px;
+  box-shadow: 0 12px 34px rgba(0,0,0,.45);
+  opacity: 0; transform: translateY(16px); pointer-events: none;
+  transition: opacity .35s ease, transform .35s ease, background .2s ease;
+}
+.fab.is-on { opacity: 1; transform: none; pointer-events: auto; }
+.fab:hover { background: var(--amber-hi); }
+.fab svg { width: 20px; height: 20px; flex: none; fill: currentColor; }
+
+/* ---------- revelação no scroll (só com JS) ---------- */
+.js .reveal { opacity: 0; transform: translateY(18px); }
+.js .reveal.is-in { opacity: 1; transform: none; transition: opacity .6s ease, transform .6s cubic-bezier(.22,.61,.36,1); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  .js .reveal { opacity: 1; transform: none; }
+}
+</style>
+<script>document.documentElement.className += ' js';</script>
+</head>
+<body>
+
+<a class="skip" href="#conteudo">Ir para o conteúdo</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#topo" aria-label="Dianin Seguros - início">
+      <img src="assets/img/logo-lockup.png" width="503" height="156" alt="Dianin Seguros">
+    </a>
+    <nav class="site-nav" aria-label="Seções do site">
+      <a class="nav-link" href="#ramos">Ramos</a>
+      <a class="nav-link" href="#como">Como funciona</a>
+      <a class="nav-link" href="#corretor">O corretor</a>
+      <a class="nav-link" href="#duvidas">Dúvidas</a>
+      <a class="btn btn--amber btn--sm" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20uma%20cota%C3%A7%C3%A3o." target="_blank" rel="noopener">Cotação</a>
+    </nav>
+  </div>
+</header>
+
+<main id="conteudo">
+
+  <section class="hero" id="topo">
+    <div class="wrap">
+      <div class="reveal">
+        <p class="eyebrow">Corretora independente · Mandaguari, PR</p>
+        <h1>Proteção feita sob medida.</h1>
+        <p class="hero-lead">Seguros para pessoas físicas e empresas, com cotação em múltiplas seguradoras e um corretor que atende você pessoalmente - do orçamento ao sinistro.</p>
+        <div class="hero-actions">
+          <a class="btn btn--amber" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20uma%20cota%C3%A7%C3%A3o." target="_blank" rel="noopener">Falar no WhatsApp</a>
+          <a class="btn btn--ghost" href="#ramos">Ver os seguros</a>
+        </div>
+      </div>
+      <figure class="portrait reveal">
+        <picture>
+          <source type="image/webp" srcset="assets/img/paulo-dianin-760.webp 760w, assets/img/paulo-dianin-1200.webp 1200w" sizes="(max-width: 760px) 100vw, 560px">
+          <img src="assets/img/paulo-dianin-760.jpg"
+               srcset="assets/img/paulo-dianin-760.jpg 760w, assets/img/paulo-dianin-1200.jpg 1200w"
+               sizes="(max-width: 760px) 100vw, 560px"
+               width="760" height="760" fetchpriority="high"
+               alt="Paulo César Dianin, corretor de seguros, de braços cruzados em um escritório">
+        </picture>
+        <figcaption>
+          <div>
+            <div class="name">Paulo César Dianin</div>
+            <div class="role">Corretor responsável</div>
+          </div>
+          <img class="mark" src="assets/img/logo-mark.png" width="116" height="132" alt="">
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="band" id="ramos">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>Principais ramos</h2>
+        <p>Pessoa física e jurídica. Se o risco existe, há uma apólice para ele.</p>
+      </div>
+      <div class="grid-hair grid-hair--3 reveal">
+
+        <div class="ramo">
+          <span class="tag">Pessoa física e empresas</span>
+          <h3>Automóvel</h3>
+          <p>Cobertura compreensiva, terceiros, carro reserva e assistência 24h. Comparação de franquias e bônus entre seguradoras.</p>
+          <a class="cotar" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20cotar%20seguro%20de%20autom%C3%B3vel." target="_blank" rel="noopener">Cotar automóvel</a>
+        </div>
+
+        <div class="ramo">
+          <span class="tag">Patrimônio</span>
+          <h3>Ramos elementares</h3>
+          <p>Residencial, empresarial, condomínio, responsabilidade civil e patrimônio. Proteção para o que já está construído.</p>
+          <a class="cotar" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20cotar%20seguro%20de%20patrim%C3%B4nio." target="_blank" rel="noopener">Cotar patrimônio</a>
+        </div>
+
+        <div class="ramo">
+          <span class="tag">Pessoa física e empresas</span>
+          <h3>Vida</h3>
+          <p>Capital segurado ajustável, invalidez, doenças graves e assistência funeral. Também em versão coletiva para empresas.</p>
+          <a class="cotar" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20cotar%20seguro%20de%20vida." target="_blank" rel="noopener">Cotar vida</a>
+        </div>
+
+        <div class="ramo">
+          <span class="tag">Mercosul</span>
+          <h3>Seguro Carta Verde</h3>
+          <p>Obrigatório para viagens de veículo aos países do Mercosul. Emissão rápida, com validade reconhecida na fronteira.</p>
+          <a class="cotar" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20emitir%20o%20Seguro%20Carta%20Verde." target="_blank" rel="noopener">Emitir Carta Verde</a>
+        </div>
+
+        <div class="ramo">
+          <span class="tag">Viagem</span>
+          <h3>Seguro Viagem</h3>
+          <p>Assistência médica, bagagem e cancelamento para viagens nacionais e internacionais, incluindo a exigência do Tratado de Schengen.</p>
+          <a class="cotar" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20cotar%20seguro%20viagem." target="_blank" rel="noopener">Cotar viagem</a>
+        </div>
+
+        <div class="ramo ramo--ask">
+          <p>Precisa de outra cobertura? Consulte o corretor.</p>
+          <a class="link-under" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20preciso%20de%20uma%20cobertura%20espec%C3%ADfica." target="_blank" rel="noopener">Pedir cotação</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="como">
+    <div class="wrap">
+      <h2 class="reveal">Como funciona</h2>
+      <p class="steps-lead reveal">Um processo curto, sem formulário longo e sem letra miúda escondida.</p>
+      <ol class="steps-grid reveal">
+        <li class="step">
+          <div class="n">01</div>
+          <h3>Conversa inicial</h3>
+          <p>Pelo WhatsApp ou no seu endereço: entendemos o que precisa ser protegido.</p>
+        </li>
+        <li class="step">
+          <div class="n">02</div>
+          <h3>Cotação múltipla</h3>
+          <p>Seu perfil vai a várias seguradoras e as propostas são comparadas por cobertura, não só preço.</p>
+        </li>
+        <li class="step">
+          <div class="n">03</div>
+          <h3>Escolha explicada</h3>
+          <p>Você recebe as melhores opções com franquias, carências e exclusões traduzidas.</p>
+        </li>
+        <li class="step">
+          <div class="n">04</div>
+          <h3>Acompanhamento</h3>
+          <p>Apólice emitida, renovação avisada com antecedência e sinistro conduzido pelo corretor.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band broker" id="corretor">
+    <div class="wrap">
+      <div class="reveal">
+        <p class="eyebrow">O corretor</p>
+        <h2>Paulo César Dianin</h2>
+        <p class="lead">Atendimento pessoal em Mandaguari e região. Como corretor independente, não represento uma única seguradora: comparo as opções do mercado e indico a apólice que faz sentido para o seu perfil.</p>
+        <p class="lead">Na hora do sinistro, ou eu abro o processo ou oriento você passo a passo - e acompanho até o fim.</p>
+      </div>
+      <div class="reveal">
+        <p class="eyebrow eyebrow--quiet">Onde o atendimento acontece</p>
+        <div class="modes">
+          <div class="mode">
+            <h3>No seu endereço</h3>
+            <p>O corretor vai até sua casa ou empresa, no horário que funcionar para você - inclusive fora do comercial.</p>
+          </div>
+          <div class="mode">
+            <h3>À distância</h3>
+            <p>Cotação, envio de documentos, emissão da apólice e abertura de sinistro resolvidos por WhatsApp.</p>
+          </div>
+          <div class="mode">
+            <h3>Com hora marcada em Mandaguari</h3>
+            <p>Atendimento presencial na Rua Manoel Antunes Pereira, 887, combinado antes pelo WhatsApp.</p>
+          </div>
+        </div>
+        <p class="agendar">
+          <a class="link-under" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20combinar%20um%20hor%C3%A1rio." target="_blank" rel="noopener">Combinar um horário pelo WhatsApp</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band insurers">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--quiet reveal">Cotamos com as principais seguradoras</p>
+      <div class="logo-grid reveal">
+        <div class="logo-cell"><img src="assets/img/seguradoras/porto.png" alt="Porto" width="132" height="31" loading="lazy" decoding="async"></div>
+        <div class="logo-cell"><img src="assets/img/seguradoras/hdi.png" alt="HDI Seguros" width="71" height="44" loading="lazy" decoding="async"></div>
+        <div class="logo-cell"><img src="assets/img/seguradoras/allianz.png" alt="Allianz" width="121" height="30" loading="lazy" decoding="async"></div>
+        <div class="logo-cell"><img src="assets/img/seguradoras/azul.png" alt="Azul Seguros" width="70" height="43" loading="lazy" decoding="async"></div>
+        <div class="logo-cell"><img src="assets/img/seguradoras/bradesco.png" alt="Bradesco Seguros" width="117" height="45" loading="lazy" decoding="async"></div>
+        <div class="logo-cell"><img src="assets/img/seguradoras/yelum.png" alt="Yelum Seguradora" width="101" height="33" loading="lazy" decoding="async"></div>
+        <div class="logo-cell"><img src="assets/img/seguradoras/mapfre.png" alt="Mapfre" width="140" height="21" loading="lazy" decoding="async"></div>
+        <div class="logo-cell"><img src="assets/img/seguradoras/tokio.png" alt="Tokio Marine" width="138" height="33" loading="lazy" decoding="async"></div>
+        <div class="logo-cell logo-cell--more">e outras seguradoras do mercado</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band faq" id="duvidas">
+    <div class="wrap">
+      <h2 class="reveal">Dúvidas frequentes</h2>
+      <div class="faq-list reveal">
+        <details class="faq-item" open>
+          <summary><span>Contratar com corretor custa mais caro?</span><span class="sign" aria-hidden="true"></span></summary>
+          <p class="answer">Não. A comissão do corretor já está embutida no prêmio cobrado pela seguradora, com ou sem intermediação. A diferença é ter alguém do seu lado na negociação e no sinistro.</p>
+        </details>
+        <details class="faq-item">
+          <summary><span>O que é o Seguro Carta Verde?</span><span class="sign" aria-hidden="true"></span></summary>
+          <p class="answer">É o seguro exigido para circular com veículo nos países do Mercosul. Cobre danos a terceiros no exterior e é conferido na fronteira.</p>
+        </details>
+        <details class="faq-item">
+          <summary><span>Atende empresas?</span><span class="sign" aria-hidden="true"></span></summary>
+          <p class="answer">Sim. Frota, patrimônio, responsabilidade civil e vida em grupo, com gestão das apólices e das renovações.</p>
+        </details>
+        <details class="faq-item">
+          <summary><span>Já tenho seguro em outra corretora. Dá para transferir?</span><span class="sign" aria-hidden="true"></span></summary>
+          <p class="answer">Sim, na renovação, sem custo de transferência e mantendo o histórico de bônus do veículo.</p>
+        </details>
+        <details class="faq-item">
+          <summary><span>Como funciona o atendimento de sinistro?</span><span class="sign" aria-hidden="true"></span></summary>
+          <p class="answer">Você me aciona direto. Dependendo do caso, eu mesmo abro o processo junto à seguradora ou oriento você em cada etapa - e acompanho a regulação até o pagamento.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contato">
+    <div class="wrap">
+      <div class="reveal">
+        <h2>Peça sua cotação. Sem compromisso.</h2>
+        <p class="lead">Me conte o que precisa proteger pelo WhatsApp e retorno com as opções das seguradoras comparadas.</p>
+        <a class="btn btn--ink" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20uma%20cota%C3%A7%C3%A3o." target="_blank" rel="noopener">Falar com o corretor</a>
+      </div>
+      <dl class="facts reveal">
+        <div class="fact">
+          <dt>WhatsApp</dt>
+          <dd><a href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20uma%20cota%C3%A7%C3%A3o." target="_blank" rel="noopener">(44) 99972-1522</a></dd>
+        </div>
+        <div class="fact">
+          <dt>E-mail</dt>
+          <dd><a href="mailto:seguros@dseg.com.br">seguros@dseg.com.br</a></dd>
+        </div>
+        <div class="fact">
+          <dt>Atendimento presencial</dt>
+          <dd>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=Rua+Manoel+Antunes+Pereira%2C+887%2C+Mandaguari+-+PR" target="_blank" rel="noopener">Rua Manoel Antunes Pereira, 887 - Mandaguari, PR</a><br>
+            <span class="sub">com hora marcada, ou o corretor vai até você</span>
+          </dd>
+        </div>
+        <div class="fact">
+          <dt>Atendimento</dt>
+          <dd>Pessoa física e jurídica · Mandaguari e região</dd>
+        </div>
+        <div class="fact">
+          <dt>Instagram</dt>
+          <dd><a href="https://www.instagram.com/dianinsegconsultoria/" target="_blank" rel="noopener">@dianinsegconsultoria</a></dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="row">
+      <span class="who">
+        <img src="assets/img/logo-mark.png" width="116" height="132" alt="">
+        Dianin Seguros · Paulo César Dianin - Corretor de Seguros
+      </span>
+      <span class="meta">
+        <a href="https://www.instagram.com/dianinsegconsultoria/" target="_blank" rel="noopener">@dianinsegconsultoria</a>
+        <span>© <span id="ano">2026</span></span>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<a class="fab" id="fab" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20uma%20cota%C3%A7%C3%A3o." target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.464 3.488"/></svg>
+  Falar no WhatsApp
+</a>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "InsuranceAgency",
+      "@id": "https://dseg.com.br/#corretora",
+      "name": "Dianin Seguros",
+      "alternateName": "Dianin Seg",
+            "description": "Corretora de seguros independente em Mandaguari, PR. Seguro auto, patrimônio, vida, Carta Verde e viagem para pessoa física e jurídica.",
+      "url": "https://dseg.com.br/",
+      "image": "https://dseg.com.br/assets/img/og-cover.jpg",
+      "logo": "https://dseg.com.br/assets/img/favicon-512.png",
+      "email": "seguros@dseg.com.br",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rua Manoel Antunes Pereira, 887",
+        "addressLocality": "Mandaguari",
+        "addressRegion": "PR",
+        "addressCountry": "BR"
+      },
+      "areaServed": { "@type": "AdministrativeArea", "name": "Mandaguari e região, Paraná" },
+      "sameAs": ["https://www.instagram.com/dianinsegconsultoria/"],
+      "employee": {
+        "@type": "Person",
+        "name": "Paulo César Dianin",
+        "jobTitle": "Corretor de seguros"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://dseg.com.br/#duvidas",
+      "mainEntity": [
+        { "@type": "Question", "name": "Contratar com corretor custa mais caro?", "acceptedAnswer": { "@type": "Answer", "text": "Não. A comissão do corretor já está embutida no prêmio cobrado pela seguradora, com ou sem intermediação. A diferença é ter alguém do seu lado na negociação e no sinistro." } },
+        { "@type": "Question", "name": "O que é o Seguro Carta Verde?", "acceptedAnswer": { "@type": "Answer", "text": "É o seguro exigido para circular com veículo nos países do Mercosul. Cobre danos a terceiros no exterior e é conferido na fronteira." } },
+        { "@type": "Question", "name": "Atende empresas?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. Frota, patrimônio, responsabilidade civil e vida em grupo, com gestão das apólices e das renovações." } },
+        { "@type": "Question", "name": "Já tenho seguro em outra corretora. Dá para transferir?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, na renovação, sem custo de transferência e mantendo o histórico de bônus do veículo." } },
+        { "@type": "Question", "name": "Como funciona o atendimento de sinistro?", "acceptedAnswer": { "@type": "Answer", "text": "Você me aciona direto. Dependendo do caso, eu mesmo abro o processo junto à seguradora ou oriento você em cada etapa - e acompanho a regulação até o pagamento." } }
+      ]
+    }
+  ]
+}
+</script>
+
+<script>
+(function () {
+  'use strict';
+
+  document.getElementById('ano').textContent = new Date().getFullYear();
+
+  var alvos = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+    alvos.forEach(function (el) { io.observe(el); });
+    setTimeout(function () {
+      alvos.forEach(function (el) { el.classList.add('is-in'); });
+    }, 2500);
+  } else {
+    alvos.forEach(function (el) { el.classList.add('is-in'); });
+  }
+
+  var fab = document.getElementById('fab');
+  var visivel = false;
+  addEventListener('scroll', function () {
+    var mostrar = scrollY > 520;
+    if (mostrar !== visivel) { visivel = mostrar; fab.classList.toggle('is-on', mostrar); }
+  }, { passive: true });
+
+  var itens = document.querySelectorAll('.faq-item');
+  itens.forEach(function (d) {
+    d.addEventListener('toggle', function () {
+      if (!d.open) { return; }
+      itens.forEach(function (o) { if (o !== d) { o.open = false; } });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

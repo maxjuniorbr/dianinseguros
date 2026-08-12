@@ -1,0 +1,10 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Windows zone identifier files
+*:Zone.Identifier
+
+# IDE / workspace
+.vscode/
+*.code-workspace
