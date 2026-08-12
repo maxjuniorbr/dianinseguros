@@ -94,6 +94,7 @@ p { margin: 0; text-wrap: pretty; }
   color: var(--amber); margin: 0;
 }
 .eyebrow--quiet { color: var(--dim); }
+.broker .eyebrow--quiet { color: var(--mute); }
 
 .skip {
   position: absolute; left: -9999px; top: 0; z-index: 200;
@@ -229,6 +230,58 @@ p { margin: 0; text-wrap: pretty; }
 .step h3 { font-size: 19px; letter-spacing: -0.01em; margin: 12px 0 10px; }
 .step p { font-size: 15px; color: var(--dim); }
 
+/* ---------- cotação online ---------- */
+.calc-grid { grid-template-columns: 1fr; }
+@media (min-width: 520px) { .calc-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .calc-grid { grid-template-columns: repeat(3, 1fr); } }
+.calc-tile {
+  background: var(--ink-2);
+  padding: 22px 22px 20px; display: flex; flex-direction: column; gap: 7px;
+  border-left: 2px solid transparent;
+  transition: background .25s ease, border-color .25s ease;
+}
+.calc-tile:hover { background: var(--ink-3); border-left-color: var(--amber); }
+.calc-tile .t {
+  font-family: var(--display); font-weight: 600; font-size: 17px; letter-spacing: -0.01em;
+}
+.calc-tile .s { font-size: 13.5px; color: var(--dim); }
+.calc-tile:hover .t { color: var(--amber); }
+.calc-tile .go {
+  margin-top: 4px; font-family: var(--display); font-weight: 600; font-size: 14px;
+  color: var(--dim); transition: color .2s ease;
+}
+.calc-tile .go::after { content: " ↗"; }
+.calc-tile:hover .go { color: var(--amber); }
+
+.modal {
+  width: min(520px, calc(100vw - 32px)); padding: 0; border: 1px solid var(--line-2);
+  background: var(--ink-2); color: var(--text); font-family: var(--body);
+}
+.modal::backdrop { background: rgba(8,8,8,.72); }
+.modal-corpo { padding: clamp(26px, 5vw, 34px); }
+.modal h2 { font-size: clamp(21px, 3vw, 25px); margin-bottom: 14px; }
+.modal p { font-size: 15.5px; color: var(--mute); }
+.modal p + p { margin-top: 12px; }
+.modal .destino {
+  display: block; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line);
+  font-size: 13px; color: var(--dim); word-break: break-all;
+}
+.modal-acoes {
+  display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-end;
+  padding: 18px clamp(26px, 5vw, 34px); background: var(--ink-3); border-top: 1px solid var(--line);
+}
+.modal-acoes .voltar {
+  background: none; border: 1px solid var(--line-2); color: var(--mute);
+  font-family: var(--display); font-weight: 600; font-size: 15px;
+  padding: 13px 22px; cursor: pointer; transition: color .2s ease, border-color .2s ease;
+}
+.modal-acoes .voltar:hover { color: var(--text); border-color: var(--mute); }
+.modal-acoes .btn { padding: 13px 24px; font-size: 15px; }
+.calc-foot {
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  flex-wrap: wrap; margin-top: 18px; font-size: 15px; color: var(--dim);
+}
+
 /* ---------- corretor ---------- */
 .broker { background: var(--slate); }
 .broker > .wrap {
@@ -261,15 +314,11 @@ p { margin: 0; text-wrap: pretty; }
   transition: background .25s ease;
 }
 .logo-cell:hover { background: var(--ink-3); }
-/* largura/altura vêm dos atributos de cada <img>, que carregam o ajuste
-   óptico logo a logo; aqui só limitamos para caber em telas estreitas. */
 .logo-cell img {
   max-width: 82%; height: auto;
   opacity: .72; transition: opacity .25s ease;
 }
 .logo-cell:hover img { opacity: 1; }
-/* com oito seguradoras a grade fecha certinho em 4x2, então a nota
-   sobre as demais vira uma faixa baixa ocupando a largura toda. */
 .logo-cell--more {
   grid-column: 1 / -1; height: 60px;
   font-size: 14.5px; color: var(--dim);
@@ -328,7 +377,6 @@ p { margin: 0; text-wrap: pretty; }
 }
 .site-footer .who { display: flex; align-items: center; gap: 13px; }
 .site-footer img { height: 28px; width: auto; }
-.site-footer .meta { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
 .site-footer a { transition: color .2s ease; }
 .site-footer a:hover { color: var(--amber); }
 .site-footer .legal {
@@ -350,14 +398,60 @@ p { margin: 0; text-wrap: pretty; }
 .fab:hover { background: var(--amber-hi); }
 .fab svg { width: 20px; height: 20px; flex: none; fill: currentColor; }
 
-/* ---------- revelação no scroll (só com JS) ---------- */
+.ramo .cotar, .link-under, .site-nav a, .fact a, .site-footer a, .brand { position: relative; }
+.ramo .cotar::before, .link-under::before, .site-nav a::before,
+.fact a::before, .site-footer a::before, .brand::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 50%;
+  height: 44px; transform: translateY(-50%);
+}
+
+/* ---------- movimento ---------- */
 .js .reveal { opacity: 0; transform: translateY(18px); }
 .js .reveal.is-in { opacity: 1; transform: none; transition: opacity .6s ease, transform .6s cubic-bezier(.22,.61,.36,1); }
 
+@keyframes entrar { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+.js .hero-txt > * { animation: entrar .6s cubic-bezier(.22,.61,.36,1) both; }
+.js .hero-txt > *:nth-child(1) { animation-delay: 60ms; }
+.js .hero-txt > *:nth-child(2) { animation-delay: 150ms; }
+.js .hero-txt > *:nth-child(3) { animation-delay: 250ms; }
+.js .hero-txt > *:nth-child(4) { animation-delay: 350ms; }
+.js .hero .portrait { animation: entrar .8s cubic-bezier(.22,.61,.36,1) both; animation-delay: 200ms; }
+
+.js .stagger > * { opacity: 0; }
+.js .stagger.is-in > * { animation: entrar .5s cubic-bezier(.22,.61,.36,1) both; }
+.js .stagger.is-in > *:nth-child(1) { animation-delay: 0ms; }
+.js .stagger.is-in > *:nth-child(2) { animation-delay: 60ms; }
+.js .stagger.is-in > *:nth-child(3) { animation-delay: 120ms; }
+.js .stagger.is-in > *:nth-child(4) { animation-delay: 180ms; }
+.js .stagger.is-in > *:nth-child(5) { animation-delay: 240ms; }
+.js .stagger.is-in > *:nth-child(6) { animation-delay: 300ms; }
+.js .stagger.is-in > *:nth-child(7) { animation-delay: 360ms; }
+.js .stagger.is-in > *:nth-child(8) { animation-delay: 420ms; }
+.js .stagger.is-in > *:nth-child(9) { animation-delay: 480ms; }
+
+.site-header { transition: padding .3s ease, background .3s ease; }
+.site-header.is-compact { background: rgba(16,16,16,.97); }
+.site-header.is-compact .wrap { padding-block: 7px; }
+.site-header .wrap { transition: padding-block .3s ease; }
+.brand img { transition: height .3s ease; }
+.site-header.is-compact .brand img { height: 32px; }
+@media (max-width: 400px) { .site-header.is-compact .brand img { height: 28px; } }
+
+.btn:active { transform: translateY(0) scale(.985); }
+.ramo:active, .calc-tile:active, .logo-cell:active { background: var(--ink-3); }
+.calc-tile:active { border-left-color: var(--amber); }
+.mode:active { background: #34322F; }
+.faq-item summary:active, .link-under:active, .site-nav a:active { color: var(--amber); }
+.fab:active { transform: scale(.97); }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
-  .js .reveal { opacity: 1; transform: none; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important; animation-delay: 0ms !important;
+    transition-duration: .01ms !important;
+  }
+  .js .reveal, .js .stagger > *, .js .hero-txt > * { opacity: 1; transform: none; }
 }
 </style>
 <script>document.documentElement.className += ' js';</script>
@@ -374,6 +468,7 @@ p { margin: 0; text-wrap: pretty; }
     <nav class="site-nav" aria-label="Seções do site">
       <a class="nav-link" href="#ramos">Ramos</a>
       <a class="nav-link" href="#como">Como funciona</a>
+      <a class="nav-link" href="#cotar-online">Cotar sozinho</a>
       <a class="nav-link" href="#corretor">O corretor</a>
       <a class="nav-link" href="#duvidas">Dúvidas</a>
       <a class="btn btn--amber btn--sm" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20uma%20cota%C3%A7%C3%A3o." target="_blank" rel="noopener">Cotação</a>
@@ -385,7 +480,7 @@ p { margin: 0; text-wrap: pretty; }
 
   <section class="hero" id="topo">
     <div class="wrap">
-      <div class="reveal">
+      <div class="hero-txt">
         <p class="eyebrow">Corretora independente · Mandaguari, PR</p>
         <h1>Proteção feita sob medida.</h1>
         <p class="hero-lead">Seguros para pessoas físicas e empresas, com cotação em múltiplas seguradoras e um corretor que atende você pessoalmente - do orçamento ao sinistro.</p>
@@ -394,7 +489,7 @@ p { margin: 0; text-wrap: pretty; }
           <a class="btn btn--ghost" href="#ramos">Ver os seguros</a>
         </div>
       </div>
-      <figure class="portrait reveal">
+      <figure class="portrait">
         <picture>
           <source type="image/webp" srcset="assets/img/paulo-dianin-760.webp 760w, assets/img/paulo-dianin-1200.webp 1200w" sizes="(max-width: 760px) 100vw, 560px">
           <img src="assets/img/paulo-dianin-760.jpg"
@@ -420,10 +515,10 @@ p { margin: 0; text-wrap: pretty; }
         <h2>Principais ramos</h2>
         <p>Pessoa física e jurídica. Se o risco existe, há uma apólice para ele.</p>
       </div>
-      <div class="grid-hair grid-hair--3 reveal">
+      <div class="grid-hair grid-hair--3 reveal stagger">
 
         <div class="ramo">
-          <span class="tag">Pessoa física e empresas</span>
+          <span class="tag">Pessoas e empresas</span>
           <h3>Automóvel</h3>
           <p>Cobertura compreensiva, terceiros, carro reserva e assistência 24h. Comparação de franquias e bônus entre seguradoras.</p>
           <a class="cotar" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20cotar%20seguro%20de%20autom%C3%B3vel." target="_blank" rel="noopener">Cotar automóvel</a>
@@ -437,7 +532,7 @@ p { margin: 0; text-wrap: pretty; }
         </div>
 
         <div class="ramo">
-          <span class="tag">Pessoa física e empresas</span>
+          <span class="tag">Pessoas e empresas</span>
           <h3>Vida</h3>
           <p>Capital segurado ajustável, invalidez, doenças graves e assistência funeral. Também em versão coletiva para empresas.</p>
           <a class="cotar" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20cotar%20seguro%20de%20vida." target="_blank" rel="noopener">Cotar vida</a>
@@ -470,11 +565,11 @@ p { margin: 0; text-wrap: pretty; }
     <div class="wrap">
       <h2 class="reveal">Como funciona</h2>
       <p class="steps-lead reveal">Um processo curto, sem formulário longo e sem letra miúda escondida.</p>
-      <ol class="steps-grid reveal">
+      <ol class="steps-grid reveal stagger">
         <li class="step">
           <div class="n">01</div>
           <h3>Conversa inicial</h3>
-          <p>Pelo WhatsApp ou no seu endereço: entendemos o que precisa ser protegido.</p>
+          <p>Pelo WhatsApp ou no seu endereço, para entender o que precisa ser protegido.</p>
         </li>
         <li class="step">
           <div class="n">02</div>
@@ -495,6 +590,56 @@ p { margin: 0; text-wrap: pretty; }
     </div>
   </section>
 
+  <section class="band" id="cotar-online">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div>
+          <p class="eyebrow">Autoatendimento</p>
+          <h2 style="margin-top: 16px;">Comece sua cotação sozinho</h2>
+        </div>
+        <p>Preencha os dados na hora que quiser, sem esperar atendimento. O corretor recebe tudo e retorna com as opções das seguradoras comparadas.</p>
+      </div>
+
+      <div class="grid-hair calc-grid reveal stagger">
+        <a class="calc-tile" href="https://gestao.segfy.com/Publico/Segurados/Orcamentos/SolicitarCotacao?e=NmVkVQfJ9zo%3D" target="_blank" rel="noopener">
+          <span class="t">Automóvel e moto</span>
+          <span class="s">Cobertura, franquia e assistência</span>
+          <span class="go">Abrir formulário</span>
+        </a>
+        <a class="calc-tile" href="https://gestao.segfy.com/Publico/Segurados/Orcamentos/SolicitarCotacaoResidencial?e=NmVkVQfJ9zo%3D" target="_blank" rel="noopener">
+          <span class="t">Residencial</span>
+          <span class="s">Casa ou apartamento</span>
+          <span class="go">Abrir formulário</span>
+        </a>
+        <a class="calc-tile" href="https://gestao.segfy.com/Publico/Segurados/Orcamentos/SolicitarCotacaoCondominio?e=NmVkVQfJ9zo%3D" target="_blank" rel="noopener">
+          <span class="t">Condomínio</span>
+          <span class="s">Áreas comuns e responsabilidade</span>
+          <span class="go">Abrir formulário</span>
+        </a>
+        <a class="calc-tile" href="https://gestao.segfy.com/Publico/Segurados/Orcamentos/SolicitarCotacaoEmpresarial?e=NmVkVQfJ9zo%3D" target="_blank" rel="noopener">
+          <span class="t">Empresarial</span>
+          <span class="s">Patrimônio e operação da empresa</span>
+          <span class="go">Abrir formulário</span>
+        </a>
+        <a class="calc-tile" href="https://gestao.segfy.com/Publico/Segurados/Orcamentos/SolicitarCotacaoVida?e=NmVkVQfJ9zo%3D" target="_blank" rel="noopener">
+          <span class="t">Vida</span>
+          <span class="s">Capital, invalidez e doenças graves</span>
+          <span class="go">Abrir formulário</span>
+        </a>
+        <a class="calc-tile" href="https://gestao.segfy.com/Publico/Segurados/Orcamentos/SolicitarCotacaoViagem?e=NmVkVQfJ9zo%3D" target="_blank" rel="noopener">
+          <span class="t">Viagem</span>
+          <span class="s">Nacional, internacional e Schengen</span>
+          <span class="go">Abrir formulário</span>
+        </a>
+      </div>
+
+      <p class="calc-foot reveal">
+        <span>Carta Verde e demais coberturas saem por cotação direta com o corretor.</span>
+        <a class="link-under" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20prefiro%20que%20voc%C3%AA%20fa%C3%A7a%20a%20cota%C3%A7%C3%A3o." target="_blank" rel="noopener">Pedir a cotação pelo WhatsApp</a>
+      </p>
+    </div>
+  </section>
+
   <section class="band broker" id="corretor">
     <div class="wrap">
       <div class="reveal">
@@ -505,10 +650,10 @@ p { margin: 0; text-wrap: pretty; }
       </div>
       <div class="reveal">
         <p class="eyebrow eyebrow--quiet">Onde o atendimento acontece</p>
-        <div class="modes">
+        <div class="modes reveal stagger">
           <div class="mode">
             <h3>No seu endereço</h3>
-            <p>O corretor vai até sua casa ou empresa, no horário que funcionar para você - inclusive fora do comercial.</p>
+            <p>Vou até sua casa ou empresa, no horário que funcionar para você - inclusive fora do comercial.</p>
           </div>
           <div class="mode">
             <h3>À distância</h3>
@@ -516,7 +661,7 @@ p { margin: 0; text-wrap: pretty; }
           </div>
           <div class="mode">
             <h3>Com hora marcada em Mandaguari</h3>
-            <p>Atendimento presencial na Rua Manoel Antunes Pereira, 887, combinado antes pelo WhatsApp.</p>
+            <p>Atendo na Rua Manoel Antunes Pereira, 887, com horário combinado antes pelo WhatsApp.</p>
           </div>
         </div>
         <p class="agendar">
@@ -528,8 +673,8 @@ p { margin: 0; text-wrap: pretty; }
 
   <section class="band insurers">
     <div class="wrap">
-      <p class="eyebrow eyebrow--quiet reveal">Cotamos com as principais seguradoras</p>
-      <div class="logo-grid reveal">
+      <p class="eyebrow eyebrow--quiet reveal">Seguradoras que entram na cotação</p>
+      <div class="logo-grid reveal stagger">
         <div class="logo-cell"><img src="assets/img/seguradoras/porto.png" alt="Porto" width="132" height="31" loading="lazy" decoding="async"></div>
         <div class="logo-cell"><img src="assets/img/seguradoras/hdi.png" alt="HDI Seguros" width="71" height="44" loading="lazy" decoding="async"></div>
         <div class="logo-cell"><img src="assets/img/seguradoras/allianz.png" alt="Allianz" width="121" height="30" loading="lazy" decoding="async"></div>
@@ -546,7 +691,7 @@ p { margin: 0; text-wrap: pretty; }
   <section class="band faq" id="duvidas">
     <div class="wrap">
       <h2 class="reveal">Dúvidas frequentes</h2>
-      <div class="faq-list reveal">
+      <div class="faq-list reveal stagger">
         <details class="faq-item" open>
           <summary><span>Contratar com corretor custa mais caro?</span><span class="sign" aria-hidden="true"></span></summary>
           <p class="answer">Não. A comissão do corretor já está embutida no prêmio cobrado pela seguradora, com ou sem intermediação. A diferença é ter alguém do seu lado na negociação e no sinistro.</p>
@@ -565,7 +710,7 @@ p { margin: 0; text-wrap: pretty; }
         </details>
         <details class="faq-item">
           <summary><span>Como funciona o atendimento de sinistro?</span><span class="sign" aria-hidden="true"></span></summary>
-          <p class="answer">Você me aciona direto. Dependendo do caso, eu mesmo abro o processo junto à seguradora ou oriento você em cada etapa - e acompanho a regulação até o pagamento.</p>
+          <p class="answer">Você aciona o corretor direto. Dependendo do caso, ele abre o processo junto à seguradora ou orienta você em cada etapa - e acompanha a regulação até o pagamento.</p>
         </details>
       </div>
     </div>
@@ -575,10 +720,10 @@ p { margin: 0; text-wrap: pretty; }
     <div class="wrap">
       <div class="reveal">
         <h2>Peça sua cotação. Sem compromisso.</h2>
-        <p class="lead">Me conte o que precisa proteger pelo WhatsApp e retorno com as opções das seguradoras comparadas.</p>
+        <p class="lead">Conte pelo WhatsApp o que precisa proteger. O corretor retorna com as opções das seguradoras comparadas.</p>
         <a class="btn btn--ink" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20uma%20cota%C3%A7%C3%A3o." target="_blank" rel="noopener">Falar com o corretor</a>
       </div>
-      <dl class="facts reveal">
+      <dl class="facts reveal stagger">
         <div class="fact">
           <dt>WhatsApp</dt>
           <dd><a href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20uma%20cota%C3%A7%C3%A3o." target="_blank" rel="noopener">(44) 99972-1522</a></dd>
@@ -615,13 +760,23 @@ p { margin: 0; text-wrap: pretty; }
         <img src="assets/img/logo-mark.png" width="116" height="132" alt="">
         Dianin Seguros · Paulo César Dianin - Corretor de Seguros
       </span>
-      <span class="meta">
-        <a href="https://www.instagram.com/dianinsegconsultoria/" target="_blank" rel="noopener">@dianinsegconsultoria</a>
-        <span>© <span id="ano">2026</span></span>
-      </span>
+      <span class="meta">© <span id="ano">2026</span></span>
     </div>
   </div>
 </footer>
+
+<dialog class="modal" id="saida-modal" aria-labelledby="saida-titulo">
+  <div class="modal-corpo">
+    <h2 id="saida-titulo">O formulário abre em outra aba</h2>
+    <p>O formulário de <strong id="saida-produto">cotação</strong> fica no sistema Segfy, usado pela corretora para cotar. Este site continua aberto nesta aba.</p>
+    <p>Ao enviar, os dados vão direto para o corretor, que retorna com as opções das seguradoras comparadas.</p>
+    <span class="destino" id="saida-url"></span>
+  </div>
+  <div class="modal-acoes">
+    <button type="button" class="voltar" id="saida-voltar">Voltar</button>
+    <a class="btn btn--amber" id="saida-ir" target="_blank" rel="noopener">Abrir formulário</a>
+  </div>
+</dialog>
 
 <a class="fab" id="fab" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20uma%20cota%C3%A7%C3%A3o." target="_blank" rel="noopener">
   <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.464 3.488"/></svg>
@@ -666,7 +821,7 @@ p { margin: 0; text-wrap: pretty; }
         { "@type": "Question", "name": "O que é o Seguro Carta Verde?", "acceptedAnswer": { "@type": "Answer", "text": "É o seguro exigido para circular com veículo nos países do Mercosul. Cobre danos a terceiros no exterior e é conferido na fronteira." } },
         { "@type": "Question", "name": "Atende empresas?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. Frota, patrimônio, responsabilidade civil e vida em grupo, com gestão das apólices e das renovações." } },
         { "@type": "Question", "name": "Já tenho seguro em outra corretora. Dá para transferir?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, na renovação, sem custo de transferência e mantendo o histórico de bônus do veículo." } },
-        { "@type": "Question", "name": "Como funciona o atendimento de sinistro?", "acceptedAnswer": { "@type": "Answer", "text": "Você me aciona direto. Dependendo do caso, eu mesmo abro o processo junto à seguradora ou oriento você em cada etapa - e acompanho a regulação até o pagamento." } }
+        { "@type": "Question", "name": "Como funciona o atendimento de sinistro?", "acceptedAnswer": { "@type": "Answer", "text": "Você aciona o corretor direto. Dependendo do caso, ele abre o processo junto à seguradora ou orienta você em cada etapa - e acompanha a regulação até o pagamento." } }
       ]
     }
   ]
@@ -695,11 +850,36 @@ p { margin: 0; text-wrap: pretty; }
   }
 
   var fab = document.getElementById('fab');
+  var cabecalho = document.querySelector('.site-header');
   var visivel = false;
+  var compacto = false;
   addEventListener('scroll', function () {
     var mostrar = scrollY > 520;
     if (mostrar !== visivel) { visivel = mostrar; fab.classList.toggle('is-on', mostrar); }
+    var encolher = scrollY > 60;
+    if (encolher !== compacto) { compacto = encolher; cabecalho.classList.toggle('is-compact', encolher); }
   }, { passive: true });
+
+  var modal = document.getElementById('saida-modal');
+  if (modal && typeof modal.showModal === 'function') {
+    var alvoNome = document.getElementById('saida-produto');
+    var alvoUrl = document.getElementById('saida-url');
+    var irPara = document.getElementById('saida-ir');
+
+    document.querySelectorAll('.calc-tile').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        alvoNome.textContent = a.querySelector('.t').textContent.toLowerCase();
+        irPara.href = a.href;
+        alvoUrl.textContent = 'Você vai para gestao.segfy.com';
+        modal.showModal();
+      });
+    });
+
+    document.getElementById('saida-voltar').addEventListener('click', function () { modal.close(); });
+    irPara.addEventListener('click', function () { modal.close(); });
+    modal.addEventListener('click', function (e) { if (e.target === modal) { modal.close(); } });
+  }
 
   var itens = document.querySelectorAll('.faq-item');
   itens.forEach(function (d) {
