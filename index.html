@@ -70,7 +70,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overscroll-behavior-y: none; }
 body {
   margin: 0;
   background: var(--ink);
@@ -369,14 +369,20 @@ p { margin: 0; text-wrap: pretty; }
 .fact .sub { color: #4A4A46; }
 
 /* ---------- rodapé ---------- */
-.site-footer { background: var(--ink); color: var(--dim); }
+.site-footer { background: var(--ink); color: var(--dim); border-top: 1px solid var(--line); }
 .site-footer .wrap { padding-block: 30px 26px; font-size: 13px; }
 .site-footer .row {
   display: flex; justify-content: space-between; align-items: center;
   gap: 18px; flex-wrap: wrap;
 }
-.site-footer .who { display: flex; align-items: center; gap: 13px; }
-.site-footer img { height: 28px; width: auto; }
+.site-footer .who { display: flex; align-items: center; gap: 14px; }
+.site-footer .who b { display: block; font-weight: 600; color: var(--mute); }
+.site-footer img { height: 30px; width: auto; flex: none; }
+@media (max-width: 640px) {
+  .site-footer .wrap { padding-block: 28px 92px; }
+  .site-footer .row { flex-direction: column; align-items: flex-start; gap: 18px; }
+  .site-footer .meta { width: 100%; padding-top: 16px; border-top: 1px solid var(--line); }
+}
 .site-footer a { transition: color .2s ease; }
 .site-footer a:hover { color: var(--amber); }
 .site-footer .legal {
@@ -757,8 +763,8 @@ p { margin: 0; text-wrap: pretty; }
   <div class="wrap">
     <div class="row">
       <span class="who">
-        <img src="assets/img/logo-mark.png" width="116" height="132" alt="">
-        Dianin Seguros · Paulo César Dianin - Corretor de Seguros
+        <img src="assets/img/logo-mark.png" width="155" height="176" alt="">
+        <span><b>Dianin Seguros</b>Paulo César Dianin - Corretor de seguros</span>
       </span>
       <span class="meta">© <span id="ano">2026</span></span>
     </div>
