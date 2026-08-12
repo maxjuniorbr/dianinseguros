@@ -378,11 +378,7 @@ p { margin: 0; text-wrap: pretty; }
 .site-footer .who { display: flex; align-items: center; gap: 14px; }
 .site-footer .who b { display: block; font-weight: 600; color: var(--mute); }
 .site-footer img { height: 30px; width: auto; flex: none; }
-@media (max-width: 640px) {
-  .site-footer .wrap { padding-block: 28px 92px; }
-  .site-footer .row { flex-direction: column; align-items: flex-start; gap: 18px; }
-  .site-footer .meta { width: 100%; padding-top: 16px; border-top: 1px solid var(--line); }
-}
+@media (max-width: 640px) { .site-footer .wrap { padding-block: 28px 34px; } }
 .site-footer a { transition: color .2s ease; }
 .site-footer a:hover { color: var(--amber); }
 .site-footer .legal {
@@ -392,17 +388,17 @@ p { margin: 0; text-wrap: pretty; }
 
 /* ---------- botão flutuante ---------- */
 .fab {
-  position: fixed; right: clamp(16px, 3vw, 26px); bottom: clamp(16px, 3vw, 26px); z-index: 60;
+  position: fixed; right: 0; bottom: clamp(24px, 6vh, 56px); z-index: 60;
+  width: 58px; height: 58px; display: grid; place-items: center;
   background: var(--amber); color: var(--ink);
-  font-family: var(--display); font-weight: 600; font-size: 15px;
-  padding: 14px 22px; display: flex; align-items: center; gap: 10px;
-  box-shadow: 0 12px 34px rgba(0,0,0,.45);
-  opacity: 0; transform: translateY(16px); pointer-events: none;
-  transition: opacity .35s ease, transform .35s ease, background .2s ease;
+  box-shadow: -6px 10px 30px rgba(0,0,0,.5);
+  opacity: 0; transform: translateX(18px); pointer-events: none;
+  transition: opacity .35s ease, transform .4s cubic-bezier(.22,.61,.36,1), background .2s ease;
 }
 .fab.is-on { opacity: 1; transform: none; pointer-events: auto; }
-.fab:hover { background: var(--amber-hi); }
-.fab svg { width: 20px; height: 20px; flex: none; fill: currentColor; }
+.fab.is-on.acima { transform: translateY(-104px); }
+.fab:hover, .fab:active { background: var(--amber-hi); }
+.fab svg { width: 28px; height: 28px; fill: currentColor; }
 
 .ramo .cotar, .link-under, .site-nav a, .fact a, .site-footer a, .brand { position: relative; }
 .ramo .cotar::before, .link-under::before, .site-nav a::before,
@@ -449,7 +445,6 @@ p { margin: 0; text-wrap: pretty; }
 .calc-tile:active { border-left-color: var(--amber); }
 .mode:active { background: #34322F; }
 .faq-item summary:active, .link-under:active, .site-nav a:active { color: var(--amber); }
-.fab:active { transform: scale(.97); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -764,9 +759,8 @@ p { margin: 0; text-wrap: pretty; }
     <div class="row">
       <span class="who">
         <img src="assets/img/logo-mark.png" width="155" height="176" alt="">
-        <span><b>Dianin Seguros</b>Paulo César Dianin - Corretor de seguros</span>
+        <span><b>Dianin Seguros</b>© <span id="ano">2026</span> · Paulo César Dianin - Corretor de seguros</span>
       </span>
-      <span class="meta">© <span id="ano">2026</span></span>
     </div>
   </div>
 </footer>
@@ -784,9 +778,8 @@ p { margin: 0; text-wrap: pretty; }
   </div>
 </dialog>
 
-<a class="fab" id="fab" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20uma%20cota%C3%A7%C3%A3o." target="_blank" rel="noopener">
+<a class="fab" id="fab" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20uma%20cota%C3%A7%C3%A3o." target="_blank" rel="noopener" aria-label="Falar no WhatsApp" title="Falar no WhatsApp">
   <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.464 3.488"/></svg>
-  Falar no WhatsApp
 </a>
 
 <script type="application/ld+json">
@@ -857,13 +850,17 @@ p { margin: 0; text-wrap: pretty; }
 
   var fab = document.getElementById('fab');
   var cabecalho = document.querySelector('.site-header');
+  var rodape = document.querySelector('.site-footer');
   var visivel = false;
   var compacto = false;
+  var noFim = false;
   addEventListener('scroll', function () {
     var mostrar = scrollY > 520;
     if (mostrar !== visivel) { visivel = mostrar; fab.classList.toggle('is-on', mostrar); }
     var encolher = scrollY > 60;
     if (encolher !== compacto) { compacto = encolher; cabecalho.classList.toggle('is-compact', encolher); }
+    var chegou = rodape.getBoundingClientRect().top < innerHeight - 40;
+    if (chegou !== noFim) { noFim = chegou; fab.classList.toggle('acima', chegou); }
   }, { passive: true });
 
   var modal = document.getElementById('saida-modal');
