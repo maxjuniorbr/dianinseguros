@@ -139,11 +139,47 @@ p { margin: 0; text-wrap: pretty; }
 .brand { display: flex; align-items: center; flex: none; }
 .brand img { height: 40px; width: auto; }
 @media (max-width: 400px) { .brand img { height: 34px; } }
-.site-nav { display: flex; align-items: center; gap: clamp(16px, 2.4vw, 30px); }
+.site-nav { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: clamp(12px, 2.4vw, 30px); }
 .site-nav a { font-size: 14px; color: var(--mute); transition: color .2s ease; }
 .site-nav a:hover { color: var(--amber); }
 .site-nav .btn { color: var(--ink); }
-@media (max-width: 860px) { .site-nav .nav-link { display: none; } }
+
+.menu-btn {
+  display: none; width: 46px; height: 46px; margin-right: -8px;
+  background: none; border: 0; padding: 0; cursor: pointer;
+  place-items: center; color: var(--text);
+}
+.menu-btn .barras { display: block; width: 24px; height: 16px; position: relative; }
+.menu-btn i {
+  position: absolute; left: 0; right: 0; height: 2px; background: currentColor;
+  transition: transform .28s cubic-bezier(.22,.61,.36,1), opacity .18s ease;
+}
+.menu-btn i:nth-child(1) { top: 0; }
+.menu-btn i:nth-child(2) { top: 7px; }
+.menu-btn i:nth-child(3) { top: 14px; }
+.menu-btn[aria-expanded="true"] { color: var(--amber); }
+.menu-btn[aria-expanded="true"] i:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-btn[aria-expanded="true"] i:nth-child(2) { opacity: 0; }
+.menu-btn[aria-expanded="true"] i:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 860px) {
+  .js .menu-btn { display: grid; }
+  .js .site-nav {
+    position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: var(--ink); border-bottom: 1px solid var(--line);
+    padding: 6px var(--gut) 20px;
+    box-shadow: 0 18px 40px rgba(0,0,0,.5);
+    display: none;
+  }
+  .js .site-nav.aberto { display: flex; animation: entrar .26s ease both; }
+  .js .site-nav .nav-link {
+    font-family: var(--display); font-weight: 600; font-size: 17px; color: var(--text);
+    padding: 15px 0; border-bottom: 1px solid var(--line);
+  }
+  .js .site-nav .nav-link:last-of-type { border-bottom: 0; }
+  .js .site-nav .btn { justify-content: center; margin-top: 14px; font-size: 16px; padding: 16px 24px; }
+}
 
 /* ---------- hero ---------- */
 .hero { border-bottom: 1px solid var(--line); }
@@ -399,11 +435,6 @@ p { margin: 0; text-wrap: pretty; }
 }
 .fab.is-on { opacity: 1; transform: none; pointer-events: auto; }
 .fab.is-on.acima { transform: translateY(-104px); }
-@media (max-width: 860px) {
-  body.com-fab .site-nav .btn { opacity: 0; visibility: hidden; transform: translateY(-8px); }
-  .site-nav .btn { transition: opacity .3s ease, transform .3s ease, visibility 0s linear .3s; }
-  body:not(.com-fab) .site-nav .btn { visibility: visible; transition-delay: 0s; }
-}
 .fab:hover, .fab:active { background: var(--amber-hi); }
 .fab svg { width: 28px; height: 28px; fill: currentColor; }
 
@@ -473,7 +504,10 @@ p { margin: 0; text-wrap: pretty; }
     <a class="brand" href="#topo" aria-label="Dianin Seguros - início">
       <img src="assets/img/logo-lockup.png" width="503" height="156" alt="Dianin Seguros">
     </a>
-    <nav class="site-nav" aria-label="Seções do site">
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Abrir menu">
+      <span class="barras" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Seções do site">
       <a class="nav-link" href="#ramos">Ramos</a>
       <a class="nav-link" href="#como">Como funciona</a>
       <a class="nav-link" href="#cotar-online">Cotar sozinho</a>
@@ -864,7 +898,6 @@ p { margin: 0; text-wrap: pretty; }
     if (mostrar !== visivel) {
       visivel = mostrar;
       fab.classList.toggle('is-on', mostrar);
-      document.body.classList.toggle('com-fab', mostrar);
     }
     var encolher = scrollY > 60;
     if (encolher !== compacto) { compacto = encolher; cabecalho.classList.toggle('is-compact', encolher); }
@@ -873,6 +906,40 @@ p { margin: 0; text-wrap: pretty; }
   }
   addEventListener('scroll', aoRolar, { passive: true });
   aoRolar();
+
+  var botaoMenu = document.getElementById('menu-btn');
+  var menu = document.getElementById('site-nav');
+
+  function fecharMenu(devolverFoco) {
+    if (botaoMenu.getAttribute('aria-expanded') !== 'true') { return; }
+    menu.classList.remove('aberto');
+    botaoMenu.setAttribute('aria-expanded', 'false');
+    botaoMenu.setAttribute('aria-label', 'Abrir menu');
+    if (devolverFoco) { botaoMenu.focus(); }
+  }
+
+  botaoMenu.addEventListener('click', function () {
+    var abrindo = botaoMenu.getAttribute('aria-expanded') !== 'true';
+    menu.classList.toggle('aberto', abrindo);
+    botaoMenu.setAttribute('aria-expanded', String(abrindo));
+    botaoMenu.setAttribute('aria-label', abrindo ? 'Fechar menu' : 'Abrir menu');
+  });
+
+  menu.addEventListener('click', function (e) {
+    if (e.target.closest('a')) { fecharMenu(false); }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { fecharMenu(true); }
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.site-header')) { fecharMenu(false); }
+  });
+
+  addEventListener('resize', function () {
+    if (innerWidth > 860) { fecharMenu(false); }
+  }, { passive: true });
 
   var modal = document.getElementById('saida-modal');
   if (modal && typeof modal.showModal === 'function') {
