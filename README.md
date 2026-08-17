@@ -14,6 +14,10 @@ Site de página única da Dianin Seguros, corretora do Paulo César Dianin em Ma
 
 ```
 index.html          # Página principal
+favicon.ico         # Ícone da aba e da busca
+robots.txt          # Liberação para crawlers e link do sitemap
+sitemap.xml         # Sitemap da home
+CNAME               # Domínio dseg.com.br no GitHub Pages
 assets/
   fonts/            # Archivo e Space Grotesk
   img/              # Logo, retrato e imagens
@@ -23,3 +27,7 @@ assets/
 ## Desenvolvimento
 
 Abra `index.html` no navegador. Não precisa de build.
+
+## Deploy
+
+GitHub Pages publica a branch `main` na raiz do repositório. Um push em `main` já vai para o ar.
