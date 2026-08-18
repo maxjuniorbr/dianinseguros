@@ -82,7 +82,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 img { max-width: 100%; display: block; }
-dialog:not([open]) { display: none; }
 a { color: inherit; text-decoration: none; }
 h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -0.03em; margin: 0; text-wrap: balance; }
 p { margin: 0; text-wrap: pretty; }
@@ -90,6 +89,9 @@ p { margin: 0; text-wrap: pretty; }
 :focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
 
 .wrap { max-width: var(--wrap); margin: 0 auto; padding-inline: var(--gut); }
+
+/* compensa o header sticky ao pular por âncora */
+main > section[id] { scroll-margin-top: 84px; }
 .eyebrow {
   font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
   color: var(--amber); margin: 0;
@@ -143,6 +145,7 @@ p { margin: 0; text-wrap: pretty; }
 .site-nav { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: clamp(12px, 2.4vw, 30px); }
 .site-nav a { font-size: 14px; color: var(--mute); transition: color .2s ease; }
 .site-nav a:hover { color: var(--amber); }
+.site-nav a[aria-current="true"] { color: var(--amber); }
 .site-nav .btn { color: var(--ink); }
 
 .menu-btn {
@@ -219,6 +222,33 @@ p { margin: 0; text-wrap: pretty; }
 .portrait .role { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mute); margin-top: 6px; }
 .portrait .mark { height: 32px; width: auto; flex: none; }
 
+/* pista de rolagem */
+.scroll-cue {
+  display: none; position: absolute; left: var(--gut); bottom: 34px;
+  align-items: center; gap: 12px;
+  font-family: var(--display); font-weight: 600; font-size: 11px;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim);
+  transition: opacity .35s ease, color .2s ease;
+}
+.scroll-cue__linha {
+  display: block; width: 1px; height: 30px; flex: none;
+  background: var(--line-2); position: relative; overflow: hidden;
+}
+.scroll-cue__linha::after {
+  content: ""; position: absolute; left: 0; top: 0; width: 1px; height: 12px;
+  background: var(--amber); animation: descer 2.6s cubic-bezier(.5,0,.5,1) infinite;
+}
+@keyframes descer {
+  0% { transform: translateY(-14px); }
+  55%, 100% { transform: translateY(32px); }
+}
+.scroll-cue:hover { color: var(--amber); }
+.scroll-cue.is-off { opacity: 0; pointer-events: none; }
+@media (min-width: 861px) and (min-height: 700px) {
+  .hero { position: relative; }
+  .scroll-cue { display: flex; }
+}
+
 /* ---------- seções em grade ---------- */
 .band { border-bottom: 1px solid var(--line); }
 .band > .wrap { padding-block: var(--sec-y); }
@@ -234,6 +264,7 @@ p { margin: 0; text-wrap: pretty; }
 .grid-hair--3 { grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
 
 .ramo {
+  position: relative;
   background: var(--ink-2); display: flex; flex-direction: column; gap: 12px;
   padding: clamp(28px, 4vw, 38px) clamp(24px, 3.4vw, 34px);
   min-height: 240px; transition: background .25s ease;
@@ -248,6 +279,10 @@ p { margin: 0; text-wrap: pretty; }
 .ramo .cotar {
   font-family: var(--display); font-weight: 600; font-size: 14.5px; color: var(--dim);
   transition: color .2s ease;
+}
+/* o card inteiro é a área de clique do link */
+.ramo .cotar::before, .ramo--ask .link-under::before {
+  content: ""; position: absolute; inset: 0; height: auto; transform: none;
 }
 .ramo:hover .cotar, .ramo .cotar:hover { color: var(--amber); }
 .ramo .cotar::after { content: " →"; }
@@ -290,30 +325,6 @@ p { margin: 0; text-wrap: pretty; }
 .calc-tile .go::after { content: " ↗"; }
 .calc-tile:hover .go { color: var(--amber); }
 
-.modal {
-  width: min(520px, calc(100vw - 32px)); padding: 0; border: 1px solid var(--line-2);
-  background: var(--ink-2); color: var(--text); font-family: var(--body);
-}
-.modal::backdrop { background: rgba(8,8,8,.72); }
-.modal-corpo { padding: clamp(26px, 5vw, 34px); }
-.modal h2 { font-size: clamp(21px, 3vw, 25px); margin-bottom: 14px; }
-.modal p { font-size: 15.5px; color: var(--mute); }
-.modal p + p { margin-top: 12px; }
-.modal .destino {
-  display: block; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line);
-  font-size: 13px; color: var(--dim); word-break: break-all;
-}
-.modal-acoes {
-  display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-end;
-  padding: 18px clamp(26px, 5vw, 34px); background: var(--ink-3); border-top: 1px solid var(--line);
-}
-.modal-acoes .voltar {
-  background: none; border: 1px solid var(--line-2); color: var(--mute);
-  font-family: var(--display); font-weight: 600; font-size: 15px;
-  padding: 13px 22px; cursor: pointer; transition: color .2s ease, border-color .2s ease;
-}
-.modal-acoes .voltar:hover { color: var(--text); border-color: var(--mute); }
-.modal-acoes .btn { padding: 13px 24px; font-size: 15px; }
 .calc-foot {
   display: flex; justify-content: space-between; align-items: center; gap: 16px;
   flex-wrap: wrap; margin-top: 18px; font-size: 15px; color: var(--dim);
@@ -330,38 +341,45 @@ p { margin: 0; text-wrap: pretty; }
 .broker .lead { font-size: clamp(16px, 1.7vw, 17.5px); color: #DAD9D5; max-width: 48ch; }
 .broker .lead + .lead { margin-top: 18px; }
 .modes { display: grid; gap: 1px; background: var(--line-2); border: 1px solid var(--line-2); margin-top: 22px; }
-.mode { background: var(--slate); padding: 24px 26px; transition: background .25s ease; }
-.mode:hover { background: #34322F; }
+.mode { background: var(--slate); padding: 24px 26px; }
 .mode h3 { font-size: 18px; letter-spacing: -0.01em; margin-bottom: 8px; }
 .mode p { font-size: 15.5px; color: #C7C6C2; }
 .broker .agendar { margin-top: 24px; }
 .broker .agendar .link-under { border-bottom-color: #6E6E69; }
 
-/* ---------- seguradoras ---------- */
-.insurers > .wrap { padding-block: clamp(44px, 6vw, 72px); }
-.insurers .eyebrow { margin-bottom: 24px; }
-.logo-grid {
-  display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line);
-  grid-template-columns: repeat(2, 1fr);
+/* ---------- faixa de prova (seguradoras) ---------- */
+.proof { background: var(--ink-2); border-bottom: 1px solid var(--line); }
+.proof > .wrap {
+  display: flex; align-items: center; flex-wrap: wrap;
+  gap: clamp(16px, 3vw, 40px); padding-block: 22px;
 }
-@media (min-width: 660px) { .logo-grid { grid-template-columns: repeat(4, 1fr); } }
-.logo-cell {
-  background: var(--ink-2); height: 104px;
-  display: flex; align-items: center; justify-content: center;
-  transition: background .25s ease;
+.proof-label {
+  flex: none; margin: 0;
+  font-family: var(--body); font-weight: 400; font-size: 11.5px;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim);
 }
-.logo-cell:hover { background: var(--ink-3); }
-.logo-cell img {
-  max-width: 82%; height: auto;
-  opacity: .72; transition: opacity .25s ease;
+.proof-logos {
+  list-style: none; margin: 0; padding: 0; flex: 1;
+  display: flex; align-items: center; flex-wrap: wrap;
+  gap: clamp(16px, 2.8vw, 34px);
 }
-.logo-cell:hover img { opacity: 1; }
-.logo-cell--more {
-  grid-column: 1 / -1; height: 60px;
-  font-size: 14.5px; color: var(--dim);
-  text-align: center; padding: 0 20px; line-height: 1.4;
+.proof-logos li { display: flex; align-items: center; height: 28px; }
+.proof-logos img {
+  max-height: 23px; max-width: 92px; width: auto; height: auto;
+  opacity: .8;
 }
-.logo-cell--more:hover { background: var(--ink-2); }
+/* logos com símbolo alto ocupam mais peso óptico na mesma altura */
+.proof-logos img[alt="Porto"] { max-height: 19px; }
+.proof-logos img[alt="Azul Seguros"],
+.proof-logos img[alt="HDI Seguros"] { max-height: 21px; }
+.proof-more { font-size: 12.5px; color: var(--dim); white-space: nowrap; }
+@media (max-width: 760px) {
+  .proof > .wrap { flex-direction: column; align-items: flex-start; gap: 16px; padding-block: 22px; }
+  .proof-logos { flex: none; width: 100%; gap: 16px 22px; }
+  .proof-logos img { max-height: 20px; max-width: 76px; }
+  .proof-logos img[alt="Porto"] { max-height: 17px; }
+  .proof-more { width: 100%; }
+}
 
 /* ---------- dúvidas ---------- */
 .faq > .wrap {
@@ -388,6 +406,21 @@ p { margin: 0; text-wrap: pretty; }
 .faq-item .answer { font-size: 15.5px; color: var(--dim); max-width: 62ch; padding-bottom: 24px; }
 .faq-item[open] .answer { animation: fade .3s ease both; }
 @keyframes fade { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+/* altura animada nativa: o acordeão desliza em vez de pular.
+   Progressive enhancement - sem suporte, o comportamento é o de hoje. */
+@supports (interpolate-size: allow-keywords) and selector(::details-content) {
+  :root { interpolate-size: allow-keywords; }
+  .faq-item::details-content {
+    block-size: 0; overflow: hidden;
+    transition:
+      block-size .34s cubic-bezier(.22,.61,.36,1),
+      content-visibility .34s allow-discrete;
+  }
+  .faq-item[open]::details-content { block-size: auto; }
+  /* a altura já comunica a abertura; o fade duplicado vira ruído */
+  .faq-item[open] .answer { animation: none; }
+}
 
 /* ---------- contato ---------- */
 .contact { background: var(--paper); color: var(--ink); }
@@ -418,6 +451,17 @@ p { margin: 0; text-wrap: pretty; }
 @media (max-width: 640px) { .site-footer .wrap { padding-block: 28px 34px; } }
 .site-footer a { transition: color .2s ease; }
 .site-footer a:hover { color: var(--amber); }
+.to-top {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--display); font-weight: 600; font-size: 13px;
+  color: var(--mute); border: 1px solid var(--line-2);
+  padding: 9px 16px;
+  transition: color .2s ease, border-color .2s ease;
+}
+.to-top span { font-size: 15px; line-height: 1; transition: transform .25s ease; }
+.to-top:hover { color: var(--amber); border-color: var(--amber); }
+.to-top:hover span { transform: translateY(-2px); }
+
 .site-footer .legal {
   margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line);
   font-size: 12.5px; line-height: 1.6; color: #7E7E79; max-width: 92ch;
@@ -439,18 +483,20 @@ p { margin: 0; text-wrap: pretty; }
 .fab:hover, .fab:active { background: var(--amber-hi); }
 .fab svg { width: 28px; height: 28px; fill: currentColor; }
 
-.ramo .cotar, .link-under, .site-nav a, .fact a, .site-footer a, .brand { position: relative; }
-.ramo .cotar::before, .link-under::before, .site-nav a::before,
+.link-under, .site-nav a, .fact a, .site-footer a, .brand { position: relative; }
+.ramo .cotar { position: static; }
+.ramo--ask .link-under { position: static; }
+.link-under::before, .site-nav a::before,
 .fact a::before, .site-footer a::before, .brand::before {
   content: ""; position: absolute; left: 0; right: 0; top: 50%;
   height: 44px; transform: translateY(-50%);
 }
 
 /* ---------- movimento ---------- */
-.js .reveal { opacity: 0; transform: translateY(18px); }
-.js .reveal.is-in { opacity: 1; transform: none; transition: opacity .6s ease, transform .6s cubic-bezier(.22,.61,.36,1); }
+.js .reveal { opacity: 0; transform: translateY(12px); }
+.js .reveal.is-in { opacity: 1; transform: none; transition: opacity .38s ease, transform .38s cubic-bezier(.22,.61,.36,1); }
 
-@keyframes entrar { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes entrar { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 
 .js .hero-txt > * { animation: entrar .6s cubic-bezier(.22,.61,.36,1) both; }
 .js .hero-txt > *:nth-child(1) { animation-delay: 60ms; }
@@ -460,7 +506,7 @@ p { margin: 0; text-wrap: pretty; }
 .js .hero .portrait { animation: entrar .8s cubic-bezier(.22,.61,.36,1) both; animation-delay: 200ms; }
 
 .js .stagger > * { opacity: 0; }
-.js .stagger.is-in > * { animation: entrar .5s cubic-bezier(.22,.61,.36,1) both; }
+.js .stagger.is-in > * { animation: entrar .38s cubic-bezier(.22,.61,.36,1) both; }
 .js .stagger.is-in > *:nth-child(1) { animation-delay: 0ms; }
 .js .stagger.is-in > *:nth-child(2) { animation-delay: 60ms; }
 .js .stagger.is-in > *:nth-child(3) { animation-delay: 120ms; }
@@ -480,9 +526,8 @@ p { margin: 0; text-wrap: pretty; }
 @media (max-width: 400px) { .site-header.is-compact .brand img { height: 28px; } }
 
 .btn:active { transform: translateY(0) scale(.985); }
-.ramo:active, .calc-tile:active, .logo-cell:active { background: var(--ink-3); }
+.ramo:active, .calc-tile:active { background: var(--ink-3); }
 .calc-tile:active { border-left-color: var(--amber); }
-.mode:active { background: #34322F; }
 .faq-item summary:active, .link-under:active, .site-nav a:active { color: var(--amber); }
 
 @media (prefers-reduced-motion: reduce) {
@@ -491,6 +536,8 @@ p { margin: 0; text-wrap: pretty; }
     animation-duration: .01ms !important; animation-delay: 0ms !important;
     transition-duration: .01ms !important;
   }
+  /* o seletor universal não alcança ::details-content */
+  .faq-item::details-content { transition-duration: .01ms !important; }
   .js .reveal, .js .stagger > *, .js .hero-txt > * { opacity: 1; transform: none; }
 }
 </style>
@@ -556,6 +603,27 @@ p { margin: 0; text-wrap: pretty; }
           <img class="mark" src="assets/img/logo-mark.png" width="116" height="132" alt="">
         </figcaption>
       </figure>
+    </div>
+    <a class="scroll-cue" id="scroll-cue" href="#ramos">
+      <span class="scroll-cue__linha" aria-hidden="true"></span>
+      Role para ver os seguros
+    </a>
+  </section>
+
+  <section class="proof" aria-labelledby="proof-titulo">
+    <div class="wrap">
+      <h2 class="proof-label" id="proof-titulo">Cotamos em</h2>
+      <ul class="proof-logos">
+        <li><img src="assets/img/seguradoras/porto.png" alt="Porto" width="132" height="31" loading="lazy" decoding="async"></li>
+        <li><img src="assets/img/seguradoras/hdi.png" alt="HDI Seguros" width="71" height="44" loading="lazy" decoding="async"></li>
+        <li><img src="assets/img/seguradoras/allianz.png" alt="Allianz" width="121" height="30" loading="lazy" decoding="async"></li>
+        <li><img src="assets/img/seguradoras/azul.png" alt="Azul Seguros" width="70" height="43" loading="lazy" decoding="async"></li>
+        <li><img src="assets/img/seguradoras/bradesco.png" alt="Bradesco Seguros" width="117" height="45" loading="lazy" decoding="async"></li>
+        <li><img src="assets/img/seguradoras/yelum.png" alt="Yelum Seguradora" width="101" height="33" loading="lazy" decoding="async"></li>
+        <li><img src="assets/img/seguradoras/mapfre.png" alt="Mapfre" width="140" height="21" loading="lazy" decoding="async"></li>
+        <li><img src="assets/img/seguradoras/tokio.png" alt="Tokio Marine" width="138" height="33" loading="lazy" decoding="async"></li>
+        <li class="proof-more">e outras do mercado</li>
+      </ul>
     </div>
   </section>
 
@@ -645,9 +713,9 @@ p { margin: 0; text-wrap: pretty; }
       <div class="sec-head reveal">
         <div>
           <p class="eyebrow">Autoatendimento</p>
-          <h2 style="margin-top: 16px;">Comece sua cotação sozinho</h2>
+          <h2 class="sec-head__h2">Comece sua cotação sozinho</h2>
         </div>
-        <p>Preencha os dados na hora que quiser, sem esperar atendimento. O corretor recebe tudo e retorna com as opções das seguradoras comparadas.</p>
+        <p>Preencha os dados na hora que quiser, sem esperar atendimento. Os formulários abrem em outra aba, no sistema Segfy usado pela corretora. O corretor recebe tudo e retorna com as opções das seguradoras comparadas.</p>
       </div>
 
       <div class="grid-hair calc-grid reveal stagger">
@@ -721,23 +789,6 @@ p { margin: 0; text-wrap: pretty; }
     </div>
   </section>
 
-  <section class="band insurers">
-    <div class="wrap">
-      <p class="eyebrow eyebrow--quiet reveal">Seguradoras que entram na cotação</p>
-      <div class="logo-grid reveal stagger">
-        <div class="logo-cell"><img src="assets/img/seguradoras/porto.png" alt="Porto" width="132" height="31" loading="lazy" decoding="async"></div>
-        <div class="logo-cell"><img src="assets/img/seguradoras/hdi.png" alt="HDI Seguros" width="71" height="44" loading="lazy" decoding="async"></div>
-        <div class="logo-cell"><img src="assets/img/seguradoras/allianz.png" alt="Allianz" width="121" height="30" loading="lazy" decoding="async"></div>
-        <div class="logo-cell"><img src="assets/img/seguradoras/azul.png" alt="Azul Seguros" width="70" height="43" loading="lazy" decoding="async"></div>
-        <div class="logo-cell"><img src="assets/img/seguradoras/bradesco.png" alt="Bradesco Seguros" width="117" height="45" loading="lazy" decoding="async"></div>
-        <div class="logo-cell"><img src="assets/img/seguradoras/yelum.png" alt="Yelum Seguradora" width="101" height="33" loading="lazy" decoding="async"></div>
-        <div class="logo-cell"><img src="assets/img/seguradoras/mapfre.png" alt="Mapfre" width="140" height="21" loading="lazy" decoding="async"></div>
-        <div class="logo-cell"><img src="assets/img/seguradoras/tokio.png" alt="Tokio Marine" width="138" height="33" loading="lazy" decoding="async"></div>
-        <div class="logo-cell logo-cell--more">e outras seguradoras do mercado</div>
-      </div>
-    </div>
-  </section>
-
   <section class="band faq" id="duvidas">
     <div class="wrap">
       <h2 class="reveal">Dúvidas frequentes</h2>
@@ -775,8 +826,11 @@ p { margin: 0; text-wrap: pretty; }
       </div>
       <dl class="facts reveal stagger">
         <div class="fact">
-          <dt>WhatsApp</dt>
-          <dd><a href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20uma%20cota%C3%A7%C3%A3o." target="_blank" rel="noopener">(44) 99972-1522</a></dd>
+          <dt>Telefone e WhatsApp</dt>
+          <dd>
+            <a href="tel:+5544999721522">(44) 99972-1522</a><br>
+            <span class="sub"><a href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20uma%20cota%C3%A7%C3%A3o." target="_blank" rel="noopener">Abrir conversa no WhatsApp</a></span>
+          </dd>
         </div>
         <div class="fact">
           <dt>E-mail</dt>
@@ -808,24 +862,19 @@ p { margin: 0; text-wrap: pretty; }
     <div class="row">
       <span class="who">
         <img src="assets/img/logo-mark.png" width="155" height="176" alt="">
-        <span><b>Dianin Seguros</b>© <span id="ano">2026</span> · Paulo César Dianin - Corretor de seguros</span>
+        <span><b>Dianin Seguros</b> &copy; <span id="ano">2026</span> · Paulo César Dianin - Corretor de seguros</span>
       </span>
+      <a class="to-top" href="#topo"><span aria-hidden="true">↑</span> Voltar ao topo</a>
     </div>
+    <p class="legal">
+      <!-- SUSEP: inserir o nº de registro do corretor na linha abaixo, entre "Corretor de seguros" e o ponto. -->
+      Paulo César Dianin - Corretor de seguros. Rua Manoel Antunes Pereira, 887 - Mandaguari, PR, 86975-000.
+      A Dianin Seguros atua na intermediação de seguros: a cotação apresentada não constitui proposta de
+      cobertura, e a contratação, as coberturas, as franquias e as exclusões são as definidas na apólice
+      emitida pela seguradora escolhida.
+    </p>
   </div>
 </footer>
-
-<dialog class="modal" id="saida-modal" aria-labelledby="saida-titulo">
-  <div class="modal-corpo">
-    <h2 id="saida-titulo">O formulário abre em outra aba</h2>
-    <p>O formulário de <strong id="saida-produto">cotação</strong> fica no sistema Segfy, usado pela corretora para cotar. Este site continua aberto nesta aba.</p>
-    <p>Ao enviar, os dados vão direto para o corretor, que retorna com as opções das seguradoras comparadas.</p>
-    <span class="destino" id="saida-url"></span>
-  </div>
-  <div class="modal-acoes">
-    <button type="button" class="voltar" id="saida-voltar">Voltar</button>
-    <a class="btn btn--amber" id="saida-ir" href="https://gestao.segfy.com/Publico/Segurados/Orcamentos/SolicitarCotacao?e=NmVkVQfJ9zo%3D" target="_blank" rel="noopener">Abrir formulário</a>
-  </div>
-</dialog>
 
 <a class="fab" id="fab" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20uma%20cota%C3%A7%C3%A3o." target="_blank" rel="noopener" aria-label="Falar no WhatsApp" title="Falar no WhatsApp">
   <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.464 3.488"/></svg>
@@ -918,6 +967,7 @@ p { margin: 0; text-wrap: pretty; }
 
   document.getElementById('ano').textContent = new Date().getFullYear();
 
+  var pista = document.getElementById('scroll-cue');
   var fab = document.getElementById('fab');
   var cabecalho = document.querySelector('.site-header');
   var rodape = document.querySelector('.site-footer');
@@ -932,6 +982,7 @@ p { margin: 0; text-wrap: pretty; }
     }
     var encolher = scrollY > 60;
     if (encolher !== compacto) { compacto = encolher; cabecalho.classList.toggle('is-compact', encolher); }
+    if (pista) { pista.classList.toggle('is-off', scrollY > 80); }
     var chegou = rodape.getBoundingClientRect().top < innerHeight - 40;
     if (chegou !== noFim) { noFim = chegou; fab.classList.toggle('acima', chegou); }
   }
@@ -972,26 +1023,26 @@ p { margin: 0; text-wrap: pretty; }
     if (innerWidth > 860) { fecharMenu(false); }
   }, { passive: true });
 
-  var modal = document.getElementById('saida-modal');
-  if (modal && typeof modal.showModal === 'function') {
-    var alvoNome = document.getElementById('saida-produto');
-    var alvoUrl = document.getElementById('saida-url');
-    var irPara = document.getElementById('saida-ir');
-
-    document.querySelectorAll('.calc-tile').forEach(function (a) {
-      a.addEventListener('click', function (e) {
-        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) { return; }
-        e.preventDefault();
-        alvoNome.textContent = a.querySelector('.t').textContent.toLowerCase();
-        irPara.href = a.href;
-        alvoUrl.textContent = 'Você vai para gestao.segfy.com';
-        modal.showModal();
-      });
+  if ('IntersectionObserver' in window) {
+    var links = {};
+    var secoes = [];
+    document.querySelectorAll('.site-nav .nav-link').forEach(function (a) {
+      var alvo = document.getElementById(a.getAttribute('href').slice(1));
+      if (!alvo) { return; }
+      links[alvo.id] = a;
+      secoes.push(alvo);
     });
-
-    document.getElementById('saida-voltar').addEventListener('click', function () { modal.close(); });
-    irPara.addEventListener('click', function () { modal.close(); });
-    modal.addEventListener('click', function (e) { if (e.target === modal) { modal.close(); } });
+    var atual = null;
+    var ioNav = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) { e.target.dataset.visivel = e.isIntersecting ? '1' : ''; });
+      var ativa = secoes.filter(function (sec) { return sec.dataset.visivel; })[0];
+      var id = ativa ? ativa.id : null;
+      if (id === atual) { return; }
+      if (atual && links[atual]) { links[atual].removeAttribute('aria-current'); }
+      atual = id;
+      if (id && links[id]) { links[id].setAttribute('aria-current', 'true'); }
+    }, { rootMargin: '-88px 0px -55% 0px' });
+    secoes.forEach(function (sec) { ioNav.observe(sec); });
   }
 
   var itens = document.querySelectorAll('.faq-item');
