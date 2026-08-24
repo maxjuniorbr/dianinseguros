@@ -366,8 +366,9 @@ main > section[id] { scroll-margin-top: 84px; }
 .proof-logos li { display: flex; align-items: center; height: 28px; }
 .proof-logos img {
   max-height: 23px; max-width: 92px; width: auto; height: auto;
-  opacity: .8;
+  opacity: .8; transition: opacity .2s ease;
 }
+.proof-logos li:hover img { opacity: 1; }
 /* logos com símbolo alto ocupam mais peso óptico na mesma altura */
 .proof-logos img[alt="Porto"] { max-height: 19px; }
 .proof-logos img[alt="Azul Seguros"],
@@ -475,10 +476,17 @@ main > section[id] { scroll-margin-top: 84px; }
   background: var(--amber); color: var(--ink);
   box-shadow: -6px 10px 30px rgba(0,0,0,.5);
   transform-origin: right center;
-  opacity: 0; transform: scale(.82); pointer-events: none;
-  transition: opacity .35s ease, transform .4s cubic-bezier(.22,.61,.36,1), background .2s ease;
+  /* visibility tira o FAB da ordem de foco enquanto ele esta invisivel;
+     pointer-events sozinho barra o mouse, mas nao o teclado. o atraso na
+     transicao segura o visibility ate a saida terminar de animar. */
+  opacity: 0; transform: scale(.82); pointer-events: none; visibility: hidden;
+  transition: opacity .35s ease, transform .4s cubic-bezier(.22,.61,.36,1),
+              background .2s ease, visibility 0s linear .35s;
 }
-.fab.is-on { opacity: 1; transform: none; pointer-events: auto; }
+.fab.is-on {
+  opacity: 1; transform: none; pointer-events: auto; visibility: visible;
+  transition-delay: 0s;
+}
 .fab.is-on.acima { transform: translateY(-104px); }
 .fab:hover, .fab:active { background: var(--amber-hi); }
 .fab svg { width: 28px; height: 28px; fill: currentColor; }
@@ -505,17 +513,23 @@ main > section[id] { scroll-margin-top: 84px; }
 .js .hero-txt > *:nth-child(4) { animation-delay: 350ms; }
 .js .hero .portrait { animation: entrar .8s cubic-bezier(.22,.61,.36,1) both; animation-delay: 200ms; }
 
+/* a faixa de prova nasce acima da dobra: entra por atraso, como o hero, e nao
+   pelo IntersectionObserver - que nunca dispararia para ela. o indice vem do
+   --i escrito no HTML, nao do IIFE, para a cascata nao depender do script. */
+.js .proof-label { animation: entrar .5s cubic-bezier(.22,.61,.36,1) both; animation-delay: 420ms; }
+.js .proof-logos li {
+  animation: entrar .5s cubic-bezier(.22,.61,.36,1) both;
+  animation-delay: calc(470ms + var(--i, 0) * 45ms);
+}
+
 .js .stagger > * { opacity: 0; }
-.js .stagger.is-in > * { animation: entrar .38s cubic-bezier(.22,.61,.36,1) both; }
-.js .stagger.is-in > *:nth-child(1) { animation-delay: 0ms; }
-.js .stagger.is-in > *:nth-child(2) { animation-delay: 60ms; }
-.js .stagger.is-in > *:nth-child(3) { animation-delay: 120ms; }
-.js .stagger.is-in > *:nth-child(4) { animation-delay: 180ms; }
-.js .stagger.is-in > *:nth-child(5) { animation-delay: 240ms; }
-.js .stagger.is-in > *:nth-child(6) { animation-delay: 300ms; }
-.js .stagger.is-in > *:nth-child(7) { animation-delay: 360ms; }
-.js .stagger.is-in > *:nth-child(8) { animation-delay: 420ms; }
-.js .stagger.is-in > *:nth-child(9) { animation-delay: 480ms; }
+/* o --i de cada filho e escrito pelo IIFE quando a grade entra em cena, entao
+   a cascata funciona com qualquer quantidade de cartoes. o teto de 420ms evita
+   que uma grade longa demore a terminar. */
+.js .stagger.is-in > * {
+  animation: entrar .38s cubic-bezier(.22,.61,.36,1) both;
+  animation-delay: min(calc(var(--i, 0) * 60ms), 420ms);
+}
 
 .site-header { transition: padding .3s ease, background .3s ease; }
 .site-header.is-compact { background: rgba(16,16,16,.97); }
@@ -538,7 +552,8 @@ main > section[id] { scroll-margin-top: 84px; }
   }
   /* o seletor universal não alcança ::details-content */
   .faq-item::details-content { transition-duration: .01ms !important; }
-  .js .reveal, .js .stagger > *, .js .hero-txt > * { opacity: 1; transform: none; }
+  .js .reveal, .js .stagger > *, .js .hero-txt > *,
+  .js .proof-label, .js .proof-logos li { opacity: 1; transform: none; }
 }
 </style>
 <script>document.documentElement.className += ' js';</script>
@@ -613,16 +628,16 @@ main > section[id] { scroll-margin-top: 84px; }
   <section class="proof" aria-labelledby="proof-titulo">
     <div class="wrap">
       <h2 class="proof-label" id="proof-titulo">Cotamos em</h2>
-      <ul class="proof-logos">
-        <li><img src="assets/img/seguradoras/porto.png" alt="Porto" width="132" height="31" loading="lazy" decoding="async"></li>
-        <li><img src="assets/img/seguradoras/hdi.png" alt="HDI Seguros" width="71" height="44" loading="lazy" decoding="async"></li>
-        <li><img src="assets/img/seguradoras/allianz.png" alt="Allianz" width="121" height="30" loading="lazy" decoding="async"></li>
-        <li><img src="assets/img/seguradoras/azul.png" alt="Azul Seguros" width="70" height="43" loading="lazy" decoding="async"></li>
-        <li><img src="assets/img/seguradoras/bradesco.png" alt="Bradesco Seguros" width="117" height="45" loading="lazy" decoding="async"></li>
-        <li><img src="assets/img/seguradoras/yelum.png" alt="Yelum Seguradora" width="101" height="33" loading="lazy" decoding="async"></li>
-        <li><img src="assets/img/seguradoras/mapfre.png" alt="Mapfre" width="140" height="21" loading="lazy" decoding="async"></li>
-        <li><img src="assets/img/seguradoras/tokio.png" alt="Tokio Marine" width="138" height="33" loading="lazy" decoding="async"></li>
-        <li class="proof-more">e outras do mercado</li>
+      <ul class="proof-logos" role="list">
+        <li style="--i:0"><img src="assets/img/seguradoras/porto.png" alt="Porto" width="132" height="31" loading="eager" decoding="async"></li>
+        <li style="--i:1"><img src="assets/img/seguradoras/hdi.png" alt="HDI Seguros" width="71" height="44" loading="eager" decoding="async"></li>
+        <li style="--i:2"><img src="assets/img/seguradoras/allianz.png" alt="Allianz" width="121" height="30" loading="eager" decoding="async"></li>
+        <li style="--i:3"><img src="assets/img/seguradoras/azul.png" alt="Azul Seguros" width="70" height="43" loading="eager" decoding="async"></li>
+        <li style="--i:4"><img src="assets/img/seguradoras/bradesco.png" alt="Bradesco Seguros" width="117" height="45" loading="eager" decoding="async"></li>
+        <li style="--i:5"><img src="assets/img/seguradoras/yelum.png" alt="Yelum Seguradora" width="101" height="33" loading="eager" decoding="async"></li>
+        <li style="--i:6"><img src="assets/img/seguradoras/mapfre.png" alt="Mapfre" width="140" height="21" loading="eager" decoding="async"></li>
+        <li style="--i:7"><img src="assets/img/seguradoras/tokio.png" alt="Tokio Marine" width="138" height="33" loading="eager" decoding="async"></li>
+        <li class="proof-more" style="--i:8">e outras do mercado</li>
       </ul>
     </div>
   </section>
@@ -953,11 +968,23 @@ main > section[id] { scroll-margin-top: 84px; }
   'use strict';
 
   var alvos = document.querySelectorAll('.reveal');
-  function revelarTudo() { alvos.forEach(function (el) { el.classList.add('is-in'); }); }
+
+  // numera os filhos para o CSS escalonar a entrada por --i, seja qual for a
+  // quantidade de cartoes na grade
+  function revelar(el) {
+    if (el.classList.contains('stagger')) {
+      Array.prototype.forEach.call(el.children, function (filho, i) {
+        filho.style.setProperty('--i', i);
+      });
+    }
+    el.classList.add('is-in');
+  }
+
+  function revelarTudo() { alvos.forEach(revelar); }
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entradas) {
       entradas.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+        if (e.isIntersecting) { revelar(e.target); io.unobserve(e.target); }
       });
     }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
     alvos.forEach(function (el) { io.observe(el); });
@@ -1044,6 +1071,35 @@ main > section[id] { scroll-margin-top: 84px; }
     }, { rootMargin: '-88px 0px -55% 0px' });
     secoes.forEach(function (sec) { ioNav.observe(sec); });
   }
+
+  // conversao: um so ouvinte cobre os 13 links do WhatsApp e os 6 formularios
+  // Segfy, sem marcacao extra em nenhum deles
+  function localDoLink(a) {
+    if (a.id === 'fab') { return 'fab'; }
+    if (a.closest('.site-header')) { return 'header'; }
+    if (a.closest('.site-footer')) { return 'rodape'; }
+    var secao = a.closest('section[id]');
+    return secao ? secao.id : 'outro';
+  }
+
+  function ramoDoLink(a) {
+    var cartao = a.closest('.ramo, .calc-tile');
+    if (!cartao) { return ''; }
+    var titulo = cartao.matches('.calc-tile') ? cartao.querySelector('.t') : cartao.querySelector('h3');
+    return titulo ? titulo.textContent.trim() : '';
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href*="wa.me"], a[href*="segfy.com"]') : null;
+    if (!a || typeof gtag !== 'function') { return; }
+    var dados = {
+      method: a.href.indexOf('wa.me') > -1 ? 'whatsapp' : 'segfy',
+      link_location: localDoLink(a)
+    };
+    var ramo = ramoDoLink(a);
+    if (ramo) { dados.ramo = ramo; }
+    gtag('event', 'generate_lead', dados);
+  });
 
   var itens = document.querySelectorAll('.faq-item');
   itens.forEach(function (d) {
