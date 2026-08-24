@@ -649,6 +649,7 @@ addEventListener('DOMContentLoaded', function () {
       <a class="nav-link" href="#cotar-online">Cotar sozinho</a>
       <a class="nav-link" href="#corretor">O corretor</a>
       <a class="nav-link" href="#duvidas">Dúvidas</a>
+      <a class="nav-link" href="#contato">Contato</a>
       <a class="btn btn--amber btn--sm" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20uma%20cota%C3%A7%C3%A3o." target="_blank" rel="noopener">Cotação</a>
     </nav>
   </div>
@@ -1127,16 +1128,34 @@ addEventListener('DOMContentLoaded', function () {
       secoes.push(alvo);
     });
     var atual = null;
-    var ioNav = new IntersectionObserver(function (entradas) {
-      entradas.forEach(function (e) { e.target.dataset.visivel = e.isIntersecting ? '1' : ''; });
+
+    // No fim da pagina nenhuma secao alcanca mais a faixa do observer: a
+    // ultima e curta demais para chegar aos 88px do topo antes de o documento
+    // acabar. Sem tratar esse caso, `filter(...)[0]` devolve `#duvidas` e a
+    // navegacao anuncia "Duvidas, atual" com o leitor ja em `#contato` - o que
+    // acontece em qualquer tela mais alta que ~940px.
+    function marcar() {
       var ativa = secoes.filter(function (sec) { return sec.dataset.visivel; })[0];
+      var doc = document.documentElement;
+      var rolavel = doc.scrollHeight > innerHeight + 1;
+      if (rolavel && scrollY + innerHeight >= doc.scrollHeight - 2) {
+        ativa = secoes[secoes.length - 1];
+      }
       var id = ativa ? ativa.id : null;
       if (id === atual) { return; }
       if (atual && links[atual]) { links[atual].removeAttribute('aria-current'); }
       atual = id;
       if (id && links[id]) { links[id].setAttribute('aria-current', 'true'); }
+    }
+
+    var ioNav = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) { e.target.dataset.visivel = e.isIntersecting ? '1' : ''; });
+      marcar();
     }, { rootMargin: '-88px 0px -55% 0px' });
     secoes.forEach(function (sec) { ioNav.observe(sec); });
+    // o observer so dispara quando a intersecao muda, e chegar ao fim da
+    // pagina nem sempre coincide com isso
+    addEventListener('scroll', marcar, { passive: true });
   }
 
   // conversao: um so ouvinte cobre os 13 links do WhatsApp e os 6 formularios
