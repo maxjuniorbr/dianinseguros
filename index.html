@@ -87,6 +87,9 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -0.0
 p { margin: 0; text-wrap: pretty; }
 
 :focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+/* o <main> so recebe foco pelo skip link, e o contorno em volta de uma caixa
+   de 7.700px vira um fio âmbar atravessando a tela, sem comunicar foco algum */
+main#conteudo:focus-visible { outline: none; }
 
 .wrap { max-width: var(--wrap); margin: 0 auto; padding-inline: var(--gut); }
 
@@ -98,12 +101,14 @@ p { margin: 0; text-wrap: pretty; }
    a navegação quebrar em duas linhas: o header dobra de altura e um recuo fixo
    deixaria o <h2> da seção atrás dele. */
 main > section[id] { scroll-margin-top: 3rem; }
-/* O hero é a exceção: ele começa logo abaixo do header, que ocupa ~69px de
-   fluxo, então qualquer recuo menor que isso faz o "Voltar ao topo" parar
-   abaixo do topo de verdade. Um recuo maior que o header manda o alvo para
-   antes do início da página e o navegador prende em zero - `100vh` mantém isso
-   verdadeiro por maior que o header fique. */
-main > section#topo { scroll-margin-top: 100vh; }
+/* Duas exceções, pelo mesmo motivo: o hero e o <main> começam logo abaixo do
+   header, que ocupa ~69px de fluxo, então qualquer recuo menor que isso os faz
+   parar com o começo do conteúdo atrás dele - o "Voltar ao topo" não chega ao
+   topo, e o skip link deixa a primeira linha do hero coberta no celular. Um
+   recuo maior que o header manda o alvo para antes do início da página e o
+   navegador prende em zero; `100vh` mantém isso verdadeiro por maior que o
+   header fique. */
+main#conteudo, main > section#topo { scroll-margin-top: 100vh; }
 .eyebrow {
   font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
   color: var(--amber); margin: 0;
@@ -1086,6 +1091,19 @@ addEventListener('DOMContentLoaded', function () {
 
   var botaoMenu = document.getElementById('menu-btn');
   var menu = document.getElementById('site-nav');
+
+  // O skip link precisa que o <main> aceite foco, mas `tabindex="-1"` fixo no
+  // HTML o deixaria focavel por mouse: um clique em qualquer texto passaria o
+  // ponto de partida da tabulacao para o inicio do conteudo, e o Tab seguinte
+  // saltaria a pagina inteira de volta ao topo. Entao o atributo so existe
+  // enquanto o foco esta la.
+  var conteudo = document.getElementById('conteudo');
+  document.querySelector('.skip').addEventListener('click', function () {
+    conteudo.setAttribute('tabindex', '-1');
+  });
+  conteudo.addEventListener('blur', function () {
+    conteudo.removeAttribute('tabindex');
+  });
 
   function fecharMenu(devolverFoco) {
     if (botaoMenu.getAttribute('aria-expanded') !== 'true') { return; }
