@@ -13,3 +13,6 @@ Thumbs.db
 CLAUDE.md
 .claude/
 .mcp.json
+
+# snapshots que o MCP Playwright escreve na raiz - o Pages serve a raiz
+.playwright-mcp/
