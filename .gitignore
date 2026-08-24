@@ -8,3 +8,8 @@ Thumbs.db
 # IDE / workspace
 .vscode/
 *.code-workspace
+
+# Claude Code - ferramental local do mantenedor, nao vai para o repo publico
+CLAUDE.md
+.claude/
+.mcp.json
