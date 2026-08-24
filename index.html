@@ -1105,11 +1105,21 @@ addEventListener('DOMContentLoaded', function () {
     conteudo.removeAttribute('tabindex');
   });
 
+  // Com o menu aberto no celular ele cobre a pagina, mas o Tab continuava
+  // passando pelo que esta atras: o foco sumia de vista. `inert` tira o resto
+  // da ordem de foco e da arvore de acessibilidade enquanto o painel esta de
+  // pe, sem precisar prender o foco na mao.
+  var atras = [conteudo, rodape, fab];
+  function inerte(ligado) {
+    atras.forEach(function (el) { if (el) { el.inert = ligado; } });
+  }
+
   function fecharMenu(devolverFoco) {
     if (botaoMenu.getAttribute('aria-expanded') !== 'true') { return; }
     menu.classList.remove('aberto');
     botaoMenu.setAttribute('aria-expanded', 'false');
     botaoMenu.setAttribute('aria-label', 'Abrir menu');
+    inerte(false);
     if (devolverFoco) { botaoMenu.focus(); }
   }
 
@@ -1118,6 +1128,7 @@ addEventListener('DOMContentLoaded', function () {
     menu.classList.toggle('aberto', abrindo);
     botaoMenu.setAttribute('aria-expanded', String(abrindo));
     botaoMenu.setAttribute('aria-label', abrindo ? 'Fechar menu' : 'Abrir menu');
+    inerte(abrindo);
   });
 
   menu.addEventListener('click', function (e) {
