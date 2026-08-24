@@ -90,8 +90,20 @@ p { margin: 0; text-wrap: pretty; }
 
 .wrap { max-width: var(--wrap); margin: 0 auto; padding-inline: var(--gut); }
 
-/* compensa o header sticky ao pular por âncora */
-main > section[id] { scroll-margin-top: 84px; }
+/* Compensa o header sticky ao pular por âncora. Os 3rem (48px na fonte
+   padrão) ficam abaixo da altura do header compacto (59px no desktop, 61px no
+   mobile) de propósito: assim a borda que separa as seções fica escondida
+   atrás do header, em vez de aparecer logo abaixo dele como uma segunda
+   linha. Em `rem`, e não em px, porque quem aumenta só o tamanho do texto faz
+   a navegação quebrar em duas linhas: o header dobra de altura e um recuo fixo
+   deixaria o <h2> da seção atrás dele. */
+main > section[id] { scroll-margin-top: 3rem; }
+/* O hero é a exceção: ele começa logo abaixo do header, que ocupa ~69px de
+   fluxo, então qualquer recuo menor que isso faz o "Voltar ao topo" parar
+   abaixo do topo de verdade. Um recuo maior que o header manda o alvo para
+   antes do início da página e o navegador prende em zero - `100vh` mantém isso
+   verdadeiro por maior que o header fique. */
+main > section#topo { scroll-margin-top: 100vh; }
 .eyebrow {
   font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
   color: var(--amber); margin: 0;
