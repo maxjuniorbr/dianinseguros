@@ -556,7 +556,28 @@ main > section[id] { scroll-margin-top: 84px; }
   .js .proof-label, .js .proof-logos li { opacity: 1; transform: none; }
 }
 </style>
-<script>document.documentElement.className += ' js';</script>
+<script>
+document.documentElement.className += ' js';
+// Rede de seguranca. A classe `js` esconde coisa: o CSS segura o conteudo em
+// opacity 0 ate o IIFE marcar `is-in`, e abaixo de 860px a navegacao inteira
+// depende dela (`.js .site-nav { display: none }`, reaberta pelo handler do
+// botao). Se o IIFE nao completar, nada disso e desfeito e o site fica sem
+// conteudo abaixo da dobra e sem menu no celular. Tirar a classe desliga esse
+// regime de uma vez e devolve a pagina estatica, legivel e navegavel.
+//
+// A conferencia e de ESTADO, nao de erro. Farejar `onerror` confundiria falha
+// do gtag, de extensao do navegador ou um "Script error." cross-origin com
+// falha nossa, e derrubaria tudo por causa de terceiro. Em vez disso o IIFE
+// levanta uma bandeira ao terminar; se ela nao estiver de pe quando o DOM
+// acabar de ser lido, a classe cai. Erro de sintaxe nao impede o
+// DOMContentLoaded, entao o caso pior fica coberto - e `addEventListener` nao
+// disputa o slot unico de `window.onerror` com um script de terceiro.
+addEventListener('DOMContentLoaded', function () {
+  if (document.documentElement.dataset.revelar !== 'ok') {
+    document.documentElement.classList.remove('js');
+  }
+});
+</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q8DNKDMK1L"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -1109,6 +1130,14 @@ main > section[id] { scroll-margin-top: 84px; }
       itens.forEach(function (o) { if (o !== d) { o.open = false; } });
     });
   });
+
+  // Bandeira para a rede de seguranca do <head>, no fim de tudo de proposito:
+  // ela precisa significar "o IIFE inteiro rodou", nao "o reveal instalou". Um
+  // erro de runtime no meio - antes do handler do menu, por exemplo - deixaria
+  // a classe `js` de pe com o menu morto e os 6 links inalcancaveis no celular.
+  // Aqui no fim, qualquer falha derruba a classe: perde-se o movimento, que e
+  // cosmetico, e ganha-se a navegacao, que nao e.
+  document.documentElement.dataset.revelar = 'ok';
 })();
 </script>
 
