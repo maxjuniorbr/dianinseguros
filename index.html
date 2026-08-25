@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dianin Seguros - Corretor de seguros em Mandaguari, PR | Paulo César Dianin</title>
+<title>Corretor de seguros em Mandaguari, PR - Dianin Seguros</title>
 <meta name="description" content="Corretora independente em Mandaguari, PR. Seguro auto, residencial, empresarial, vida, Carta Verde e viagem - cotação comparada em várias seguradoras e atendimento pessoal do orçamento ao sinistro.">
 <link rel="canonical" href="https://dseg.com.br/">
 <meta name="theme-color" content="#101010">
@@ -398,6 +398,11 @@ main#conteudo, main > section#topo { scroll-margin-top: 100vh; }
   display: flex; align-items: center; flex-wrap: wrap;
   gap: clamp(16px, 3vw, 40px); padding-block: 22px;
 }
+/* O rotulo divide UMA linha com as 9 pecas da faixa, e elas precisam de 942px
+   dos 1200 do wrap: sobram ~220px para ele a 1280, e ~87px a 1100. Trocar por
+   um texto mais longo (uma versao com "principais seguradoras" tinha 322px)
+   empurra as logos para uma segunda linha e mata a intencao da faixa, que e
+   mostrar todas as seguradoras de uma vez, acima da dobra. Mantenha curto. */
 .proof-label {
   flex: none; margin: 0;
   font-family: var(--body); font-weight: 400; font-size: 11.5px;
@@ -414,22 +419,36 @@ main#conteudo, main > section#topo { scroll-margin-top: 100vh; }
   opacity: .8; transition: opacity .2s ease;
 }
 .proof-logos li:hover img { opacity: 1; }
-/* logos com símbolo alto ocupam mais peso óptico na mesma altura */
-.proof-logos img[alt="Porto"] { max-height: 19px; }
-.proof-logos img[alt="Azul Seguros"],
-.proof-logos img[alt="HDI Seguros"] { max-height: 21px; }
+/* Logos com símbolo alto ocupam mais peso óptico na mesma altura. O gancho é
+   `data-otico`, e não o `alt`: com o texto alternativo como seletor, corrigir
+   "Porto" para "Porto Seguro" - que é o nome real e o que se busca - quebrava
+   o dimensionamento em silêncio, sem erro e sem hook que pegasse. */
+.proof-logos img[data-otico="alto"] { max-height: 19px; }
+.proof-logos img[data-otico="medio"] { max-height: 21px; }
 .proof-more { font-size: 12.5px; color: var(--dim); white-space: nowrap; }
+/* A faixa existe para mostrar todas as seguradoras de uma vez, acima da dobra.
+   Em uma linha ela precisa de 942px, e o wrap so entrega isso acima de ~1140px
+   - abaixo disso a faixa quebrava e a intencao se perdia. Aqui as logos
+   encolhem um pouco, em vez de quebrar. O limite superior e 1139 de proposito:
+   medido, acima disso a regra base ja resolve e a MQ so encolheria a toa.
+   O 760.02 evita o vao que `761` deixava em zoom com DPR fracionario. */
+@media (min-width: 760.02px) and (max-width: 1139px) {
+  .proof-logos { gap: clamp(14px, 2.1vw, 26px); }
+  .proof-logos img { max-height: 21px; max-width: 82px; }
+  .proof-logos img[data-otico="alto"] { max-height: 17.5px; }
+  .proof-logos img[data-otico="medio"] { max-height: 19px; }
+}
 @media (max-width: 760px) {
   .proof > .wrap { flex-direction: column; align-items: flex-start; gap: 16px; padding-block: 22px; }
   .proof-logos { flex: none; width: 100%; gap: 16px 22px; }
   .proof-logos img { max-height: 20px; max-width: 76px; }
-  .proof-logos img[alt="Porto"] { max-height: 17px; }
+  .proof-logos img[data-otico="alto"] { max-height: 17px; }
   .proof-more { width: 100%; }
 }
 
 /* ---------- dúvidas ---------- */
 .faq > .wrap {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
   gap: clamp(28px, 5vw, 60px); padding-block: var(--sec-y);
 }
 .faq-list { border-top: 1px solid var(--line); min-width: 0; }
@@ -705,11 +724,11 @@ addEventListener('DOMContentLoaded', function () {
 
 <main id="conteudo">
 
-  <section class="hero" id="topo">
+  <section class="hero" id="topo" aria-labelledby="hero-titulo">
     <div class="wrap">
       <div class="hero-txt">
         <p class="eyebrow">Corretora independente · Mandaguari, PR</p>
-        <h1>Proteção feita sob medida.</h1>
+        <h1 id="hero-titulo">Proteção feita sob medida, em Mandaguari e região.</h1>
         <p class="hero-lead">Seguros para pessoas físicas e empresas, com cotação em múltiplas seguradoras e um corretor que atende você pessoalmente - do orçamento ao sinistro.</p>
         <div class="hero-actions">
           <a class="btn btn--amber" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20uma%20cota%C3%A7%C3%A3o." target="_blank" rel="noopener">Falar no WhatsApp</a>
@@ -744,63 +763,63 @@ addEventListener('DOMContentLoaded', function () {
     <div class="wrap">
       <h2 class="proof-label" id="proof-titulo">Cotamos em</h2>
       <ul class="proof-logos" role="list">
-        <li style="--i:0"><img src="assets/img/seguradoras/porto.png" alt="Porto" width="132" height="31" loading="eager" decoding="async"></li>
-        <li style="--i:1"><img src="assets/img/seguradoras/hdi.png" alt="HDI Seguros" width="71" height="44" loading="eager" decoding="async"></li>
-        <li style="--i:2"><img src="assets/img/seguradoras/allianz.png" alt="Allianz" width="121" height="30" loading="eager" decoding="async"></li>
-        <li style="--i:3"><img src="assets/img/seguradoras/azul.png" alt="Azul Seguros" width="70" height="43" loading="eager" decoding="async"></li>
-        <li style="--i:4"><img src="assets/img/seguradoras/bradesco.png" alt="Bradesco Seguros" width="117" height="45" loading="eager" decoding="async"></li>
-        <li style="--i:5"><img src="assets/img/seguradoras/yelum.png" alt="Yelum Seguradora" width="101" height="33" loading="eager" decoding="async"></li>
-        <li style="--i:6"><img src="assets/img/seguradoras/mapfre.png" alt="Mapfre" width="140" height="21" loading="eager" decoding="async"></li>
-        <li style="--i:7"><img src="assets/img/seguradoras/tokio.png" alt="Tokio Marine" width="138" height="33" loading="eager" decoding="async"></li>
+        <li style="--i:0"><img src="assets/img/seguradoras/porto.webp" alt="Porto Seguro" data-otico="alto" width="132" height="31" loading="eager" decoding="async"></li>
+        <li style="--i:1"><img src="assets/img/seguradoras/hdi.webp" alt="HDI Seguros" data-otico="medio" width="71" height="44" loading="eager" decoding="async"></li>
+        <li style="--i:2"><img src="assets/img/seguradoras/allianz.webp" alt="Allianz" width="121" height="30" loading="eager" decoding="async"></li>
+        <li style="--i:3"><img src="assets/img/seguradoras/azul.webp" alt="Azul Seguros" data-otico="medio" width="70" height="43" loading="eager" decoding="async"></li>
+        <li style="--i:4"><img src="assets/img/seguradoras/bradesco.webp" alt="Bradesco Seguros" width="117" height="45" loading="eager" decoding="async"></li>
+        <li style="--i:5"><img src="assets/img/seguradoras/yelum.webp" alt="Yelum Seguradora" width="101" height="33" loading="eager" decoding="async"></li>
+        <li style="--i:6"><img src="assets/img/seguradoras/mapfre.webp" alt="Mapfre" width="140" height="21" loading="eager" decoding="async"></li>
+        <li style="--i:7"><img src="assets/img/seguradoras/tokio.webp" alt="Tokio Marine" width="138" height="33" loading="eager" decoding="async"></li>
         <li class="proof-more" style="--i:8">e outras do mercado</li>
       </ul>
     </div>
   </section>
 
-  <section class="band" id="ramos">
+  <section class="band" id="ramos" aria-labelledby="ramos-titulo">
     <div class="wrap">
       <div class="sec-head reveal">
-        <h2>Principais ramos</h2>
+        <h2 id="ramos-titulo">Seguros para você e para sua empresa</h2>
         <p>Pessoa física e jurídica. Se o risco existe, há uma apólice para ele.</p>
       </div>
       <div class="grid-hair grid-hair--3 reveal stagger">
 
-        <div class="ramo">
+        <div class="ramo" data-ramo="Automóvel">
           <span class="tag">Pessoas e empresas</span>
-          <h3>Automóvel</h3>
+          <h3>Seguro de automóvel e moto</h3>
           <p>Cobertura compreensiva, terceiros, carro reserva e assistência 24h. Comparação de franquias e bônus entre seguradoras.</p>
           <a class="cotar" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20cotar%20seguro%20de%20autom%C3%B3vel." target="_blank" rel="noopener">Cotar automóvel</a>
         </div>
 
-        <div class="ramo">
+        <div class="ramo" data-ramo="Patrimônio">
           <span class="tag">Patrimônio</span>
-          <h3>Ramos elementares</h3>
-          <p>Residencial, empresarial, condomínio, responsabilidade civil e patrimônio. Proteção para o que já está construído.</p>
+          <h3>Seguro residencial e empresarial</h3>
+          <p>Ramos elementares: residencial, empresarial, condomínio, responsabilidade civil e patrimônio. Proteção para o que já está construído.</p>
           <a class="cotar" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20cotar%20seguro%20de%20patrim%C3%B4nio." target="_blank" rel="noopener">Cotar patrimônio</a>
         </div>
 
-        <div class="ramo">
+        <div class="ramo" data-ramo="Vida">
           <span class="tag">Pessoas e empresas</span>
-          <h3>Vida</h3>
+          <h3>Seguro de vida</h3>
           <p>Capital segurado ajustável, invalidez, doenças graves e assistência funeral. Também em versão coletiva para empresas.</p>
           <a class="cotar" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20cotar%20seguro%20de%20vida." target="_blank" rel="noopener">Cotar vida</a>
         </div>
 
-        <div class="ramo">
+        <div class="ramo" data-ramo="Carta Verde">
           <span class="tag">Mercosul</span>
           <h3>Seguro Carta Verde</h3>
-          <p>Obrigatório para viagens de veículo aos países do Mercosul. Emissão rápida, com validade reconhecida na fronteira.</p>
+          <p>Obrigatório para entrar de carro na Argentina, no Uruguai ou no Paraguai. Emitida na hora e a distância, com validade para o período da viagem.</p>
           <a class="cotar" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20emitir%20o%20Seguro%20Carta%20Verde." target="_blank" rel="noopener">Emitir Carta Verde</a>
         </div>
 
-        <div class="ramo">
+        <div class="ramo" data-ramo="Viagem">
           <span class="tag">Viagem</span>
           <h3>Seguro Viagem</h3>
           <p>Assistência médica, bagagem e cancelamento para viagens nacionais e internacionais, incluindo a exigência do Tratado de Schengen.</p>
           <a class="cotar" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20cotar%20seguro%20viagem." target="_blank" rel="noopener">Cotar viagem</a>
         </div>
 
-        <div class="ramo ramo--ask">
+        <div class="ramo ramo--ask" data-ramo="Outros">
           <p>Precisa de outra cobertura? Consulte o corretor.</p>
           <a class="link-under" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20preciso%20de%20uma%20cobertura%20espec%C3%ADfica." target="_blank" rel="noopener">Pedir cotação</a>
         </div>
@@ -809,9 +828,9 @@ addEventListener('DOMContentLoaded', function () {
     </div>
   </section>
 
-  <section class="band" id="como">
+  <section class="band" id="como" aria-labelledby="como-titulo">
     <div class="wrap">
-      <h2 class="reveal">Como funciona</h2>
+      <h2 class="reveal" id="como-titulo">Como funciona</h2>
       <p class="steps-lead reveal">Um processo curto, sem formulário longo e sem letra miúda escondida.</p>
       <ol class="steps-grid reveal stagger">
         <li class="step">
@@ -838,43 +857,43 @@ addEventListener('DOMContentLoaded', function () {
     </div>
   </section>
 
-  <section class="band" id="cotar-online">
+  <section class="band" id="cotar-online" aria-labelledby="cotar-titulo">
     <div class="wrap">
       <div class="sec-head reveal">
         <div>
           <p class="eyebrow">Autoatendimento</p>
-          <h2 class="sec-head__h2">Comece sua cotação sozinho</h2>
+          <h2 class="sec-head__h2" id="cotar-titulo">Comece sua cotação sozinho</h2>
         </div>
         <p>Preencha os dados na hora que quiser, sem esperar atendimento. Os formulários abrem em outra aba, no sistema Segfy usado pela corretora. O corretor recebe tudo e retorna com as opções das seguradoras comparadas.</p>
       </div>
 
       <div class="grid-hair calc-grid reveal stagger">
-        <a class="calc-tile" href="https://gestao.segfy.com/Publico/Segurados/Orcamentos/SolicitarCotacao?e=NmVkVQfJ9zo%3D" target="_blank" rel="noopener">
+        <a class="calc-tile" data-ramo="Automóvel" href="https://gestao.segfy.com/Publico/Segurados/Orcamentos/SolicitarCotacao?e=NmVkVQfJ9zo%3D" target="_blank" rel="noopener">
           <span class="t">Automóvel e moto</span>
           <span class="s">Cobertura, franquia e assistência</span>
           <span class="go">Abrir formulário</span>
         </a>
-        <a class="calc-tile" href="https://gestao.segfy.com/Publico/Segurados/Orcamentos/SolicitarCotacaoResidencial?e=NmVkVQfJ9zo%3D" target="_blank" rel="noopener">
+        <a class="calc-tile" data-ramo="Residencial" href="https://gestao.segfy.com/Publico/Segurados/Orcamentos/SolicitarCotacaoResidencial?e=NmVkVQfJ9zo%3D" target="_blank" rel="noopener">
           <span class="t">Residencial</span>
           <span class="s">Casa ou apartamento</span>
           <span class="go">Abrir formulário</span>
         </a>
-        <a class="calc-tile" href="https://gestao.segfy.com/Publico/Segurados/Orcamentos/SolicitarCotacaoCondominio?e=NmVkVQfJ9zo%3D" target="_blank" rel="noopener">
+        <a class="calc-tile" data-ramo="Condomínio" href="https://gestao.segfy.com/Publico/Segurados/Orcamentos/SolicitarCotacaoCondominio?e=NmVkVQfJ9zo%3D" target="_blank" rel="noopener">
           <span class="t">Condomínio</span>
           <span class="s">Áreas comuns e responsabilidade</span>
           <span class="go">Abrir formulário</span>
         </a>
-        <a class="calc-tile" href="https://gestao.segfy.com/Publico/Segurados/Orcamentos/SolicitarCotacaoEmpresarial?e=NmVkVQfJ9zo%3D" target="_blank" rel="noopener">
+        <a class="calc-tile" data-ramo="Empresarial" href="https://gestao.segfy.com/Publico/Segurados/Orcamentos/SolicitarCotacaoEmpresarial?e=NmVkVQfJ9zo%3D" target="_blank" rel="noopener">
           <span class="t">Empresarial</span>
           <span class="s">Patrimônio e operação da empresa</span>
           <span class="go">Abrir formulário</span>
         </a>
-        <a class="calc-tile" href="https://gestao.segfy.com/Publico/Segurados/Orcamentos/SolicitarCotacaoVida?e=NmVkVQfJ9zo%3D" target="_blank" rel="noopener">
+        <a class="calc-tile" data-ramo="Vida" href="https://gestao.segfy.com/Publico/Segurados/Orcamentos/SolicitarCotacaoVida?e=NmVkVQfJ9zo%3D" target="_blank" rel="noopener">
           <span class="t">Vida</span>
           <span class="s">Capital, invalidez e doenças graves</span>
           <span class="go">Abrir formulário</span>
         </a>
-        <a class="calc-tile" href="https://gestao.segfy.com/Publico/Segurados/Orcamentos/SolicitarCotacaoViagem?e=NmVkVQfJ9zo%3D" target="_blank" rel="noopener">
+        <a class="calc-tile" data-ramo="Viagem" href="https://gestao.segfy.com/Publico/Segurados/Orcamentos/SolicitarCotacaoViagem?e=NmVkVQfJ9zo%3D" target="_blank" rel="noopener">
           <span class="t">Viagem</span>
           <span class="s">Nacional, internacional e Schengen</span>
           <span class="go">Abrir formulário</span>
@@ -882,17 +901,17 @@ addEventListener('DOMContentLoaded', function () {
       </div>
 
       <p class="calc-foot reveal">
-        <span>Carta Verde e demais coberturas saem por cotação direta com o corretor.</span>
+        <span>Carta Verde é emitida na hora, a distância, para qualquer cidade do Brasil. Demais coberturas saem por cotação direta com o corretor.</span>
         <a class="link-under" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20prefiro%20que%20voc%C3%AA%20fa%C3%A7a%20a%20cota%C3%A7%C3%A3o." target="_blank" rel="noopener">Pedir a cotação pelo WhatsApp</a>
       </p>
     </div>
   </section>
 
-  <section class="band broker" id="corretor">
+  <section class="band broker" id="corretor" aria-labelledby="corretor-titulo">
     <div class="wrap">
       <div class="reveal">
         <p class="eyebrow">O corretor</p>
-        <h2>Paulo César Dianin</h2>
+        <h2 id="corretor-titulo">Paulo César Dianin</h2>
         <p class="lead">Atendimento pessoal em Mandaguari e região. Como corretor independente, não represento uma única seguradora: comparo as opções do mercado e indico a apólice que faz sentido para o seu perfil.</p>
         <p class="lead">Na hora do sinistro, ou eu abro o processo ou oriento você passo a passo - e acompanho até o fim.</p>
       </div>
@@ -919,9 +938,9 @@ addEventListener('DOMContentLoaded', function () {
     </div>
   </section>
 
-  <section class="band faq" id="duvidas">
+  <section class="band faq" id="duvidas" aria-labelledby="duvidas-titulo">
     <div class="wrap">
-      <h2 class="reveal">Dúvidas frequentes</h2>
+      <h2 class="reveal" id="duvidas-titulo">Dúvidas frequentes</h2>
       <div class="faq-list reveal stagger">
         <details class="faq-item" open>
           <summary><span>Contratar com corretor custa mais caro?</span><span class="sign" aria-hidden="true"></span></summary>
@@ -929,7 +948,11 @@ addEventListener('DOMContentLoaded', function () {
         </details>
         <details class="faq-item">
           <summary><span>O que é o Seguro Carta Verde?</span><span class="sign" aria-hidden="true"></span></summary>
-          <p class="answer">É o seguro exigido para circular com veículo nos países do Mercosul. Cobre danos a terceiros no exterior e é conferido na fronteira.</p>
+          <p class="answer">É o seguro obrigatório de responsabilidade civil para circular com veículo na Argentina, no Uruguai e no Paraguai. Cobre danos materiais e corporais causados a terceiros que não estejam dentro do seu veículo, e é conferido na fronteira. Não cobre o próprio veículo, o motorista nem os passageiros.</p>
+        </details>
+        <details class="faq-item">
+          <summary><span>Preciso estar em Mandaguari para emitir a Carta Verde?</span><span class="sign" aria-hidden="true"></span></summary>
+          <p class="answer">Não. A emissão é na hora e a distância: você manda os dados do veículo pelo WhatsApp e recebe o certificado do mesmo jeito. Atendo pedidos de qualquer cidade do Brasil.</p>
         </details>
         <details class="faq-item">
           <summary><span>Atende empresas?</span><span class="sign" aria-hidden="true"></span></summary>
@@ -947,10 +970,10 @@ addEventListener('DOMContentLoaded', function () {
     </div>
   </section>
 
-  <section class="contact" id="contato">
+  <section class="contact" id="contato" aria-labelledby="contato-titulo">
     <div class="wrap">
       <div class="reveal">
-        <h2>Peça sua cotação. Sem compromisso.</h2>
+        <h2 id="contato-titulo">Peça sua cotação em Mandaguari. Sem compromisso.</h2>
         <p class="lead">Conte pelo WhatsApp o que precisa proteger. O corretor retorna com as opções das seguradoras comparadas.</p>
         <a class="btn btn--ink" href="https://wa.me/5544999721522?text=Ol%C3%A1%2C%20Paulo!%20Vim%20pelo%20site%20e%20queria%20uma%20cota%C3%A7%C3%A3o." target="_blank" rel="noopener">Falar com o corretor</a>
       </div>
@@ -1025,7 +1048,6 @@ addEventListener('DOMContentLoaded', function () {
       "logo": "https://dseg.com.br/assets/img/logo-lockup.png",
       "email": "seguros@dseg.com.br",
       "telephone": "+5544999721522",
-      "priceRange": "$$",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Rua Manoel Antunes Pereira, 887",
@@ -1045,6 +1067,7 @@ addEventListener('DOMContentLoaded', function () {
           "@type": "ContactPoint",
           "contactType": "sales",
           "email": "seguros@dseg.com.br",
+          "telephone": "+5544999721522",
           "availableLanguage": "pt-BR"
         },
         {
@@ -1055,13 +1078,43 @@ addEventListener('DOMContentLoaded', function () {
           "availableLanguage": "pt-BR"
         }
       ],
+      "hasMap": "https://www.google.com/maps/search/?api=1&query=Rua+Manoel+Antunes+Pereira%2C+887%2C+Mandaguari+-+PR",
       "sameAs": ["https://www.instagram.com/dianinsegconsultoria/"],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Ramos atendidos",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Seguro de automóvel e moto", "description": "Cobertura compreensiva, terceiros, carro reserva e assistência 24h, comparada entre seguradoras." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Seguro residencial e empresarial", "description": "Ramos elementares: residencial, empresarial, condomínio, responsabilidade civil e patrimônio." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Seguro de vida", "description": "Capital segurado ajustável, invalidez, doenças graves e assistência funeral, também em versão coletiva." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "@id": "https://dseg.com.br/#carta-verde", "name": "Seguro Carta Verde" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Seguro viagem", "description": "Assistência médica, bagagem e cancelamento, incluindo a exigência do Tratado de Schengen." } }
+        ]
+      },
       "founder": { "@id": "https://dseg.com.br/#corretor" },
       "employee": {
         "@type": "Person",
         "@id": "https://dseg.com.br/#corretor",
         "name": "Paulo César Dianin",
-        "jobTitle": "Corretor de seguros"
+        "jobTitle": "Corretor de seguros",
+        "image": "https://dseg.com.br/assets/img/paulo-dianin-1200.jpg",
+        "url": "https://dseg.com.br/#corretor",
+        "worksFor": { "@id": "https://dseg.com.br/#organization" },
+        "knowsAbout": ["Seguro de automóvel", "Seguro residencial", "Seguro empresarial", "Seguro de vida", "Seguro Carta Verde", "Seguro viagem"]
+      }
+    },
+    {
+      "@type": "Service",
+      "@id": "https://dseg.com.br/#carta-verde",
+      "name": "Seguro Carta Verde",
+      "serviceType": "Seguro obrigatório para circulação de veículo no Mercosul",
+      "description": "Seguro de responsabilidade civil exigido para entrar de carro na Argentina, no Uruguai e no Paraguai. Cobre danos materiais e corporais a terceiros não transportados. Emissão na hora e a distância, com validade para o período da viagem.",
+      "provider": { "@id": "https://dseg.com.br/#organization" },
+      "areaServed": { "@type": "Country", "name": "Brasil" },
+      "availableChannel": {
+        "@type": "ServiceChannel",
+        "serviceUrl": "https://wa.me/5544999721522",
+        "availableLanguage": "pt-BR"
       }
     },
     {
@@ -1069,7 +1122,8 @@ addEventListener('DOMContentLoaded', function () {
       "@id": "https://dseg.com.br/#duvidas",
       "mainEntity": [
         { "@type": "Question", "name": "Contratar com corretor custa mais caro?", "acceptedAnswer": { "@type": "Answer", "text": "Não. A comissão do corretor já está embutida no prêmio cobrado pela seguradora, com ou sem intermediação. A diferença é ter alguém do seu lado na negociação e no sinistro." } },
-        { "@type": "Question", "name": "O que é o Seguro Carta Verde?", "acceptedAnswer": { "@type": "Answer", "text": "É o seguro exigido para circular com veículo nos países do Mercosul. Cobre danos a terceiros no exterior e é conferido na fronteira." } },
+        { "@type": "Question", "name": "O que é o Seguro Carta Verde?", "acceptedAnswer": { "@type": "Answer", "text": "É o seguro obrigatório de responsabilidade civil para circular com veículo na Argentina, no Uruguai e no Paraguai. Cobre danos materiais e corporais causados a terceiros que não estejam dentro do seu veículo, e é conferido na fronteira. Não cobre o próprio veículo, o motorista nem os passageiros." } },
+        { "@type": "Question", "name": "Preciso estar em Mandaguari para emitir a Carta Verde?", "acceptedAnswer": { "@type": "Answer", "text": "Não. A emissão é na hora e a distância: você manda os dados do veículo pelo WhatsApp e recebe o certificado do mesmo jeito. Atendo pedidos de qualquer cidade do Brasil." } },
         { "@type": "Question", "name": "Atende empresas?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. Frota, patrimônio, responsabilidade civil e vida em grupo, com gestão das apólices e das renovações." } },
         { "@type": "Question", "name": "Já tenho seguro em outra corretora. Dá para transferir?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, na renovação, sem custo de transferência e mantendo o histórico de bônus do veículo." } },
         { "@type": "Question", "name": "Como funciona o atendimento de sinistro?", "acceptedAnswer": { "@type": "Answer", "text": "Você aciona o corretor direto. Dependendo do caso, ele abre o processo junto à seguradora ou orienta você em cada etapa - e acompanha a regulação até o pagamento." } }
@@ -1240,9 +1294,15 @@ addEventListener('DOMContentLoaded', function () {
     return secao ? secao.id : 'outro';
   }
 
+  // O rotulo do GA4 vem do `data-ramo`, nao do texto visivel: assim reescrever
+  // um titulo por SEO nao renomeia a dimensao no relatorio, e "Automovel" do
+  // card e "Automovel e moto" do formulario deixam de virar duas linhas para a
+  // mesma coisa. Sem o atributo, cai no titulo - cartao novo continua medido
+  // sem tocar no JS.
   function ramoDoLink(a) {
     var cartao = a.closest('.ramo, .calc-tile');
     if (!cartao) { return ''; }
+    if (cartao.dataset.ramo) { return cartao.dataset.ramo; }
     var titulo = cartao.matches('.calc-tile') ? cartao.querySelector('.t') : cartao.querySelector('h3');
     return titulo ? titulo.textContent.trim() : '';
   }
