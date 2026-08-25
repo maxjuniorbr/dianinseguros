@@ -628,12 +628,26 @@ addEventListener('DOMContentLoaded', function () {
   }
 });
 </script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q8DNKDMK1L"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-Q8DNKDMK1L');
+  // O GA4 so roda no dominio de producao. Servida em localhost para conferencia,
+  // a pagina mandava sessao e `generate_lead` para a mesma propriedade: 2 sessoes
+  // e 23 eventos entraram assim, de 17 totais, e 4 dos 7 leads registrados eram
+  // teste. Filtro do GA4 nao e retroativo, entao o unico jeito e nao mandar.
+  //
+  // A regex aceita subdominio (`www.` redireciona 301 hoje, mas nao pode
+  // desligar a medicao em silencio se isso mudar). Fora de producao o `gtag`
+  // nem existe - o ouvinte de conversao no fim do IIFE ja checa
+  // `typeof gtag !== 'function'` e sai sem fazer nada.
+  if (/(^|\.)dseg\.com\.br$/.test(location.hostname)) {
+    document.head.appendChild(Object.assign(document.createElement('script'), {
+      async: true,
+      src: 'https://www.googletagmanager.com/gtag/js?id=G-Q8DNKDMK1L'
+    }));
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { dataLayer.push(arguments); };
+    gtag('js', new Date());
+    gtag('config', 'G-Q8DNKDMK1L');
+  }
 </script>
 </head>
 <body>
